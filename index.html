@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RescueAI hehe</title>
+</head>
+<body>
+
+
+  <section id="left-panel">
+    <!--Mission plaaning stuff will go here-->
+  </section>
+
+  <section id="right-panel">
+
+    <!--Camera output with navigation buttons here-->
+  </section>
+
+
+  <!--Inline JS stuff below-->
+
+  <script async src="./opencv.js" onload="openCvReady();"></script>
+  <script>
+    const text = document.getElementById('cv');
+    const imgElement = document.getElementById("img");
+
+    const video = document.getElementById("video");
+
+    const FPS = 30;
+    const height = 320;
+    const width = 480;
+
+
+    function processVideo() {
+
+    }
+    
+
+    function openCvReady() {
+      cv['onRuntimeInitialized'] = () => {
+
+
+        const mat = cv.imread(imgElement);
+        const dst = new cv.Mat();
+
+        cocoSsd.load().then((model) => {
+          model.detect(imgElement).then(predictions => {
+            console.log(predictions);
+          })
+        })
+
+
+        cv.imshow('img-out', dst)
+        
+        mat.delete();
+        dst.delete();
+      }
+    }
+    
+
+
+  </script>
+</body>
+</html>
