@@ -6,19 +6,30 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RescueAI hehe</title>
+  <title>RescueAI - Automated Search and Rescue</title>
 </head>
 <body>
 
+  <div style="display:grid; flex-direction:row; width:100%; height:100%">
+    <section id="left-panel" style="background-color: rgba(70,128,70);">
+      <!--Mission plaaning stuff will go here-->
+      <canvas id="video-feed"></canvas>
 
-  <section id="left-panel">
-    <!--Mission plaaning stuff will go here-->
-  </section>
+      <div class="control-container" style="display:flex; flex-direction:row;">
 
-  <section id="right-panel">
+      </div>
+    </section>
 
-    <!--Camera output with navigation buttons here-->
-  </section>
+    <section id="right-panel" style="background-color: rgba(129,45,45)">
+
+      <!--Camera output with navigation buttons here-->
+      <canvas id="video-feed"></canvas>
+
+      <div class="control-container" style="display:flex; flex-direction:row;">
+
+      </div>
+    </section>
+  </div>
 
 
   <!--Inline JS stuff below-->
