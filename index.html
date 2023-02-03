@@ -34,29 +34,49 @@
 
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script>
+    
+    const canvas = document.getElementById('output-image');
 
-    const button = document.getElementById("button");
-    button.onclick = () => {
-      fetch("http://localhost:6969/click");
-    }
-    document.getElementById("button2").onclick = () => {
-      fetch("http://localhost:6969/click");
-    }
     const FPS = 30;
     const height = 320;
     const width = 480;
+    let lastImg;
 
-    const buttonClick = () => {
-      fetch("http://localhost:6969/?param=value");
-    }
+    const model = cocoSsd;
+
+    
 
     function processVideo() {
-
+      console.log('processing video')
+      let img;
+      fetch("http://localhost:6969/camera")
+      .then(data => {
+        img = data;
+        lastImg = data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
+
+    setInterval(processVideo(), 1000);
 
     function openCvReady() {
       cv['onRuntimeInitialized'] = () => {
         //TODO: Put cv stuff here
+        if (img) {
+          let mat = cv.imread(img);
+          cv.imwrite('output-canvas', mat);
+        }
+
+        if(!lastImg) return;
+        let mat = cv.imread(lastimg);
+        model.load().then((mdl) => {
+        mdl.detect(mat).then(predictions => {
+          //do stuff
+        })
+    })
+        
       }
     }
     
