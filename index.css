@@ -1,0 +1,55 @@
+html, 
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #434343;
+}
+
+.app-layout {
+    display:grid;
+    grid-template-columns: [line1] 50% [line2] 50%;
+    grid-template-rows: [row1-start] 50% [row2-start] 50%;
+    width: 100%;
+    height: 100%;
+}
+
+.app-module-wrapper {
+    box-sizing: border-box;
+    padding: 0.5%;
+    border: 0.1px solid cyan;
+}
+
+.app-mission-wrapper {
+    display:flex;
+    border: 1px solid purple;
+    height: 100%;
+}
+
+.app-video-wrapper {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    height: 100%;
+}
+
+
+.app-event-wrapper {
+    display:flex;
+    border: 1px solid blue;
+    height: 100%;
+}
+
+.app-control-wrapper {
+    display:flex;
+    border: 1px solid yellow;
+    height: 100%;
+}
+
+.video-view {
+    background-color: green;
+    width: 100%;
+    aspect-ratio: 16/9;
+}
