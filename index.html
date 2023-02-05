@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RescueAI hehe</title>
+  <script src="./render.js" type="module" defer></script>
 </head>
 <body>
 
@@ -18,6 +19,14 @@
   <section id="right-panel">
 
     <!--Camera output with navigation buttons here-->
+    <canvas id="camera-output">
+
+    </canvas>
+
+    <button id="button">Click</button>
+    
+    <button id="button2">Click</button>
+
   </section>
 
 
@@ -25,39 +34,49 @@
 
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script>
-    const text = document.getElementById('cv');
-    const imgElement = document.getElementById("img");
-
-    const video = document.getElementById("video");
+    
+    const canvas = document.getElementById('output-image');
 
     const FPS = 30;
     const height = 320;
     const width = 480;
+    let lastImg;
 
+    const model = cocoSsd;
+
+    
 
     function processVideo() {
-
+      console.log('processing video')
+      let img;
+      fetch("http://localhost:6969/camera")
+      .then(data => {
+        img = data;
+        lastImg = data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
-    
+
+    setInterval(processVideo(), 1000);
 
     function openCvReady() {
       cv['onRuntimeInitialized'] = () => {
+        //TODO: Put cv stuff here
+        if (img) {
+          let mat = cv.imread(img);
+          cv.imwrite('output-canvas', mat);
+        }
 
-
-        const mat = cv.imread(imgElement);
-        const dst = new cv.Mat();
-
-        cocoSsd.load().then((model) => {
-          model.detect(imgElement).then(predictions => {
-            console.log(predictions);
-          })
+        if(!lastImg) return;
+        let mat = cv.imread(lastimg);
+        model.load().then((mdl) => {
+        mdl.detect(mat).then(predictions => {
+          //do stuff
         })
-
-
-        cv.imshow('img-out', dst)
+    })
         
-        mat.delete();
-        dst.delete();
       }
     }
     
