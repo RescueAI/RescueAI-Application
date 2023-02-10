@@ -21,6 +21,7 @@
     "ar-drone": "^0.3.3",
     "babel-loader": "^9.1.2",
     "concurrently": "^7.6.0",
+    "electron-reload": "^2.0.0-alpha.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7"
   }
