@@ -18,15 +18,17 @@
     <div class="app-module-wrapper">
       <div class="app-mission-wrapper">
         <!-- TODO: Mission Configuration Dialog-->
-        <div class="mission-config-container">Mission Configuration</div>
+        <div class="mission-config-container">Mission Configuration
+          
+        </div>
 
         <!-- TODO: Mission Controls -->
         <div class="mission-control-container">
           <!-- TODO: Mission CRUD Operations -->
           <div class="mission-crud">
-            <button class="primary-btn" onclick="clicked('NEW', false)">New</button>
-            <button class="primary-btn" onclick="clicked('EDIT', false)">Edit</button>
-            <button class="primary-btn" onclick="clicked('DELETE', false)">Delete</button>
+            <button class="primary-btn m-1" onclick="clicked('NEW', false)">New</button>
+            <button class="primary-btn m-1" onclick="clicked('EDIT', false)">Edit</button>
+            <button class="primary-btn m-1" onclick="clicked('DELETE', false)">Delete</button>
           </div>
           <!-- TODO: Display Mission Configurations -->
           <div class="general-container">
@@ -59,12 +61,19 @@
     <div class="app-module-wrapper">
       <div class="app-control-wrapper">
         Control Container
-        <button id="connect">Connect (Start Server)</button>
-        <!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
-        <img id="img" alt="">
+        
+        <img id="img" alt=""><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
         <div style="display: flex; height: 50px;">
-          <button id="button">Click</button>
-          <button id ="camera">Camera</button>
+          <button id ="connect"class="primary-btn m-1">Connect (Start Server)</button>
+          <button id ="button" class="primary-btn m-1">Click</button><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
+          <button id ="camera" class="primary-btn m-1">Camera</button><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
+        </div>
+
+        <!-- Box where command logs will be shown to the user.-->
+        <div class="command-log-box">
+          <div class="command-log">
+            Commands
+          </div>
         </div>
 
         <div class="kb-control-box">

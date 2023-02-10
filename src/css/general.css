@@ -1,0 +1,33 @@
+/* CSS File for general UI components */
+
+.primary-btn {
+	background-color: var(--btn-primary);
+	color: var(--btn-primary-text);
+	font-weight: 200;
+	font-style: normal;
+	text-decoration: none;
+	padding: 14px 15px;
+	border: 0px solid #000;
+	border-radius: 5px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: all 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.primary-btn span {
+	margin-right: 15px;
+	display: block;
+	width: 29px;
+	height: 29px;
+}
+.primary-btn:hover {
+	background-color: var(--btn-primary-hover);
+}
+.primary-btn:active {
+	background-color: var(--btn-primary-active);
+}
+
+.m-1{
+	margin: 1px;
+}

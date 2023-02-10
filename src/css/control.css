@@ -1,0 +1,66 @@
+
+.command-log-box {
+    display: flex;
+	justify-content: space-between;
+	padding: calc(2%);
+	box-sizing: border-box;
+    border: 1px solid red;
+    height: 100%;
+    width: 100%;
+}
+
+.command-log {
+    display: flex;
+    justify-content: center;
+    background-color: gray;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.kb-control-box {
+	display: flex;
+	justify-content: space-between;
+	padding: 25px;
+	box-sizing: border-box;
+    border: 1px solid red;
+}
+
+.kb-control {
+	display: grid;
+	grid-template-columns: [line1] 33.3% [line2] 33.3% [line3] 33.3%;
+	grid-template-rows: [row1-start] 50% [row2-start] 50%;
+	gap: 2px;
+}
+
+@media (max-height: 800px){
+    .kb-control {
+        scale: 0.7;
+    }
+	.kb-control-box {
+		height: 70%;
+	}
+}
+
+@media (max-height: 500px){
+    .kb-control {
+        scale: 0.5;
+    }
+	.kb-control-box {
+		height: 50%;
+	}
+}
+
+
+.kb-btn {
+	width: 50px;
+	height: 50px;
+	border-radius: 20%;
+	background-color: #595959;
+	color: white;
+	border: 1px solid lightgray;
+}
+
+.kb-btn:hover {
+	background-color: rgb(53, 53, 53);
+}
