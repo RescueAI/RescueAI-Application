@@ -72,26 +72,27 @@
             
             <!-- W row -->
             <div class="kb-NULL"></div>
-            <button id="kbtn-w-down" class="kb-btn kb-w">W</button>           
+            <button id="kb-w" class="kb-btn">W</button>           
             <div class="kb-NULL"></div>
 
             <!-- ASD row -->
-            <button class="kb-btn kb-a">A</button>
-            <button class="kb-btn kb-s">S</button>
-            <button class="kb-btn kb-d">D</button>
+            <button id="kb-a" class="kb-btn">A</button>
+            <button id="kb-s" class="kb-btn">S</button>
+            <button id="kb-d" class="kb-btn">D</button>
           </div>
 
           <div class="kb-control">
             
             <!-- UP row -->
             <div class="kb-NULL"></div>
-            <button class="kb-btn kb-up">🢁</button>
+            <button id="kb-up" class="kb-btn">🢁</button>
             <div class="kb-NULL"></div>
 
             <!-- Rotate Left, DOWN, Rotate Right row -->
-            <button class="kb-btn kb-rotate-left">🢀</button>
-            <button class="kb-btn kb-down">🢃</button>
-            <button class="kb-btn kb-rotate-right">🢂</button>
+            <!-- TODO: Replace with better icons -->
+            <button id="kb-rotate-left" class="kb-btn">🢀</button>
+            <button id="kb-down" class="kb-btn">🢃</button>
+            <button id="kb-rotate-right" class="kb-btn">🢂</button>
           </div>
           
         </div>
@@ -103,6 +104,6 @@
   <!--Inline JS stuff below-->
 
   <script async src="./opencv.js" onload="openCvReady();"></script>
-  <script async src="src/dronecv.js"></script>
+  <script src="src/dronecv.js" defer></script>
 </body>
 </html>
