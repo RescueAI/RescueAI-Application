@@ -43,6 +43,7 @@ body {
 
 .app-control-wrapper {
     display:flex;
+    flex-direction: column;
     border: 1px solid yellow;
     height: 100%;
 }
@@ -51,4 +52,31 @@ body {
     background-color: green;
     width: 100%;
     aspect-ratio: 16/9;
+}
+
+.kb-control-box {
+    display: flex; 
+    justify-content: space-between; 
+    padding: 25px; 
+    box-sizing: border-box;
+}
+
+.kb-control {
+    display:grid;
+    grid-template-columns: [line1] 50px [line2] 50px [line3] 50px;
+    grid-template-rows: [row1-start] 50px [row2-start] 50px;
+    gap: 2px;
+}
+
+.kb-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 20%;
+    background-color: #595959;
+    color: white;
+    border: 1px solid lightgray;
+}
+
+.kb-btn:hover {
+    background-color: rgb(53, 53, 53);
 }
