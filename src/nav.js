@@ -1,14 +1,14 @@
 export class Navigator {
 
-    public navigation() {
+    navigation() {
         console.log("Navigation Function Loaded");
     }
 
-    public test() {
+    test() {
         alert("Test Function Loaded");
     }
 
-    public print() {
+    print() {
         alert("Print Function Loaded");
     }
 }
