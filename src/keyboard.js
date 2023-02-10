@@ -6,7 +6,7 @@ const globalShortcut = electron.remote.globalShortcut;
 //Possible routes: BrowserWindow, GlobalShortcut, (???)
 
 /*
-var register = document.getElementById("kbtn-w-down");
+var register = document.getElementById("kbtn-w-down"); //todo: Should be const.
 var unregister = document.getElementById("kbtn-w-up");
  
 register.addEventListener("click", (event) => {
