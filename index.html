@@ -1,42 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RescueAI hehe</title>
+  <title>RescueAI - Automated Search and Rescue</title>
   <script src="./render.js" type="module" defer></script>
+  <script async type="text/javascript" src="src/external.js"></script>
 </head>
 <body>
+	<div class="app-layout">
+    <!-- Mission Planning Module -->
+    <div class="app-module-wrapper">
+      <div class="app-mission-wrapper">
+        <!-- TODO: Mission Configuration Dialog-->
+        <div class="mission-config-container">Mission Configuration❖︎</div>
 
+        <!-- TODO: Mission Controls -->
+        <div class="mission-control-container">
+          <!-- TODO: Mission CRUD Operations -->
+          <div class="mission-crud">
+            <button class="primary-btn" onclick="clicked('NEW', false)">New</button>
+            <button class="primary-btn" onclick="clicked('EDIT', false)">Edit</button>
+            <button class="primary-btn" onclick="clicked('DELETE', false)">Delete</button>
+          </div>
+          <!-- TODO: Display Mission Configurations -->
+          <div class="general-container">
+            <div class="mission-labels">
+              <label>Mission Select</label>
+            </div>
+            <div class="mission-select">Mission Select Content</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <section id="left-panel">
-    <!--Mission plaaning stuff will go here-->
-  </section>
+    <!-- Video Feed Module -->
+    <div class="app-module-wrapper">
+      <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
+      <div class="app-video-wrapper">
+        <canvas id="image-output" class="video-view"></canvas>
+        <p style="position: absolute">TODO: VIDEO STREAM</p>
+      </div>
+    </div>
 
-  <section id="right-panel">
+    <!-- Event Alerts Module -->
+    <div class="app-module-wrapper">
+      <div class="app-event-wrapper">
+        <div class="event-log-container">Event Container</div>
+      </div>
+    </div>
 
-    <!--Camera output with navigation buttons here-->
-    <canvas id="image-output">
-
-    </canvas>
-
-    <img id="img" alt="">
-    <button id="button">Click</button>
-    <button id ="camera">Camera</button>
-    
-
-  </section>
-
+    <!-- Navigation Control and Action Alerts Module -->
+    <div class="app-module-wrapper">
+      <div class="app-control-wrapper">
+        Control Container
+        <!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
+        <img id="img" alt="">
+        <button id="button">Click</button>
+        <button id ="camera">Camera</button>
+        <!-- End of comment-->
+      </div>
+    </div>
+  </div>
 
   <!--Inline JS stuff below-->
 
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script>
     let cvReady = false;
-    const canvas = document.getElementById('image-output');
+    const canvas = document.getElementById("image-output");
 
     const FPS = 30;
     const height = 320;
@@ -46,46 +82,46 @@
 
     const model = cocoSsd;
 
-    document.getElementById('button').onclick = () => {
+    document.getElementById("button").onclick = () => {
       fetch("http://localhost:6969/light");
-    }
+    };
 
-    document.getElementById('camera').onclick = () => {
+    document.getElementById("camera").onclick = () => {
       processVideo();
-    }
+    };
 
     function processVideo() {
-      console.log('processing video')
+      console.log("processing video");
       fetch("http://localhost:6969/camera")
-      .then(data => {
-        return data.blob();
-      })
-      .then(blob => {
-        img = URL.createObjectURL(blob);
-        lastImg = img;
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      document.getElementById('img').setAttribute('src', img);
-      const context = canvas.getContext('2d');
+        .then((data) => {
+          return data.blob();
+        })
+        .then((blob) => {
+          img = URL.createObjectURL(blob);
+          lastImg = img;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      document.getElementById("img").setAttribute("src", img);
+      const context = canvas.getContext("2d");
       outImg = new Image();
       outImg.src = img;
       outImg.onload = () => {
-        context.drawImage(outImg, 0 ,0)
-        console.log("img drawn")
-      }
+        context.drawImage(outImg, 0, 0);
+        console.log("img drawn");
+      };
 
       if (!cvReady) return;
-      console.log("CV stuff happening")
+      console.log("CV stuff happening");
       if (img) {
-          let mat = cv.matFromImageData(img);
-          cv.imwrite('image-output', mat);
-        }
+        let mat = cv.matFromImageData(img);
+        cv.imwrite("image-output", mat);
+      }
 
-        if(!lastImg) return;
-        let mat = cv.matFromImageData(lastImg);
-        /*model.load().then((mdl) => {
+      if (!lastImg) return;
+      let mat = cv.matFromImageData(lastImg);
+      /*model.load().then((mdl) => {
         mdl.detect(mat).then(predictions => {
           //do stuff
         })*/
@@ -94,10 +130,10 @@
     setInterval(processVideo, 20);
 
     function openCvReady() {
-      cv['onRuntimeInitialized'] = () => {
+      cv["onRuntimeInitialized"] = () => {
         //TODO: Put cv stuff here
         cvReady = true;
-       /* if (img) {
+        /* if (img) {
           let mat = cv.imread(img);
           cv.imwrite('image-output', mat);
         }
@@ -109,12 +145,11 @@
           //do stuff
         })
     })
-    */     
-      }
+    */
+      };
     }
-    
 
-    openCvReady()
+    openCvReady();
   </script>
 </body>
 </html>
