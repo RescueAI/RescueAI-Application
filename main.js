@@ -13,7 +13,10 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
 
-    }
+    },
+
+    minWidth: 640,
+    minHeight: 360
   })
   win.loadFile('index.html');
 }
