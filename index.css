@@ -72,20 +72,20 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
     height: 10px;
-  }
+}
 
-  /* Track */
-  ::-webkit-scrollbar-track {
+/* Track */
+::-webkit-scrollbar-track {
     background: var(--scrollbar-track); 
-  }
+}
   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+/* Handle */
+::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
     border-radius: 5px;
-  }
+}
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-thumb-hover);
-  }
+}
