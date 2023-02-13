@@ -11,13 +11,13 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true
-
+      nodeIntegration: true,
     },
 
-    minWidth: 640,
-    minHeight: 360
-  })
+    minWidth: 800,
+    minHeight: 600
+  });
+
   win.loadFile('index.html');
 }
 
