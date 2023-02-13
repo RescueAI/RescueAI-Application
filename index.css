@@ -23,6 +23,18 @@ body {
     --scrollbar-track:#3f4040;
     --scrollbar-thumb:#8e8e8e;
     --scrollbar-thumb-hover:#626263;
+
+	/*keyboard button colors*/
+	--btn-kb-text: #fff;
+	--btn-kb: #595959;
+	--btn-kb-hover: rgb(53, 53, 53);
+	--btn-kb-active: #2c363f;
+	--btn-kb-border: lightgray;
+
+	/*Dialog colors*/
+	--dialog-header-bg: #666666;
+	--dialog-content-bg: #737373;
+	--dialog-item-bg: #595959;
 }
 
 .app-layout {
@@ -62,9 +74,8 @@ body {
 .app-control-wrapper {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid yellow;
+	/*border: 1px solid yellow;*/
 	height: 100%;
-    justify-content: space-evenly;
 }
 
 
@@ -82,7 +93,6 @@ body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
-    border-radius: 5px;
 }
 
 /* Handle on hover */

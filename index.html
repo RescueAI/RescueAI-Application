@@ -9,8 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RescueAI - Automated Search and Rescue</title>
   <script src="./render.js" type="module" defer></script>
-  <script async type="text/javascript" src="src/keyboard.js"></script>
-  <script async type="text/javascript" src="src/external.js"></script>
+  <script async type="text/javascript" src="src/external.js" defer></script>
+  <script src="./src/navigation.js"></script>
 </head>
 <body>
 	<div class="app-layout">
@@ -19,7 +19,13 @@
       <div class="app-mission-wrapper">
         <!-- TODO: Mission Configuration Dialog-->
         <div class="mission-config-container">Mission Configuration
-          
+            <div class="input-container" style="display:flex; flex-direction:column; flex-grow: 1;">
+              TODO: Mission Planning Configuration Stuff HERE
+            </div>
+            <div class="input-options" style="display:flex">
+              <button class="primary-btn m-1 w-full"> Reset </button>
+              <button class="primary-btn m-1 w-full"> Save </button>
+            </div>
         </div>
 
         <!-- TODO: Mission Controls -->
@@ -31,11 +37,22 @@
             <button class="primary-btn m-1 w-full" onclick="clicked('DELETE', false)">Delete</button>
           </div>
           <!-- TODO: Display Mission Configurations -->
-          <div class="general-container">
-            <div class="mission-labels">
-              <label>Mission Select</label>
+          <div class="mission-select-container">
+            <div class="dialog">
+                <div class="dialog-header">
+                  <span class="noselect">Select Mission</span>
+                </div>
+                <div class="dialog-content">
+                  <div class="mission-select">
+                    Mission Select Content
+                  </div>
+                </div>
             </div>
-            <div class="mission-select">Mission Select Content</div>
+          </div>
+
+          <div class="mission-controls">
+            <button class="primary-btn m-1 w-full" onclick="clicked('Start Mission', false)">Start Mission</button>
+            <button class="primary-btn m-1 w-full" onclick="clicked('End Mission', false)">Stop Mission</button>
           </div>
         </div>
       </div>
@@ -60,7 +77,7 @@
     <!-- Navigation Control and Action Alerts Module -->
     <div class="app-module-wrapper">
       <div class="app-control-wrapper">
-        <img id="img" alt=""><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
+        <!--img id="img" alt=""><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
         <div style="display: flex; height: 50px;">
           <button id ="connect"class="primary-btn m-1 w-full">Connect (Start Server)</button>
           <button id ="button" class="primary-btn m-1 w-full">Click</button><!-- Not sure what this is for so left it, but it's maliks I think. -- Jarrod. -->
@@ -69,8 +86,56 @@
 
         <!-- Box where command logs will be shown to the user.-->
         <div class="command-log-box">
-          <div class="command-log">
-            Commands
+          <div class="dialog">
+            <div class="dialog-content r-inherit"> <!-- LOG DATA HERE -->
+              <table id=command-log-table class="alert-table">
+                <tr>
+                  <th class="alert-log"> Command Notifications </th>
+                  <th> Time Stamp</th>
+                  <th> Local Time</th>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward  </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+                <tr>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td> 02:02:21 </td>
+                  <td> 15:40:02 </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -79,38 +144,40 @@
             
             <!-- W row -->
             <div class="kb-NULL"></div>
-            <button id="kb-w" class="kb-btn" title="Move Forward">W</button>           
+            <button id="kb-w" class="kb-btn" title="Move Forward" onclick="move_forward()">W</button>           
             <div class="kb-NULL"></div>
 
             <!-- ASD row -->
-            <button id="kb-a" class="kb-btn" title="Move Left">A</button>
-            <button id="kb-s" class="kb-btn" title="Move Backwards">S</button>
-            <button id="kb-d" class="kb-btn" title="Move Right">D</button>
+            <button id="kb-a" class="kb-btn" title="Move Left" onclick="move_left()">A</button>
+            <button id="kb-s" class="kb-btn" title="Move Backwards" onclick="move_backward()">S</button>
+            <button id="kb-d" class="kb-btn" title="Move Right" onclick="move_right()">D</button>
           </div>
 
           <div class="kb-control">
             
             <!-- UP row -->
             <div class="kb-NULL"></div>
-            <button id="kb-up" class="kb-btn" title="Ascend">🢁</button>
+            <button id="kb-ArrowUp" class="kb-btn" title="Ascend" onclick="ascend()">🢁</button>
             <div class="kb-NULL"></div>
 
             <!-- Rotate Left, DOWN, Rotate Right row -->
             <!-- TODO: Replace with better icons -->
-            <button id="kb-rotate-left" class="kb-btn" title="Rotate Left">🢀</button>
-            <button id="kb-down" class="kb-btn" title="Descend">🢃</button>
-            <button id="kb-rotate-right" class="kb-btn" title="Rotate Right">🢂</button>
+            <button id="kb-ArrowLeft" class="kb-btn" title="Rotate Left" onclick="rot_left()">🢀</button>
+            <button id="kb-ArrowDown" class="kb-btn" title="Descend" onclick="descend()">🢃</button>
+            <button id="kb-ArrowRight" class="kb-btn" title="Rotate Right" onclick="rot_right()">🢂</button>
           </div>
           
         </div>
-        <!-- End of comment-->
       </div>
+        <!-- End of comment-->
     </div>
   </div>
 
   <!--Inline JS stuff below-->
 
+  <script src="./src/keyboard.js"></script>
   <script async src="./opencv.js" onload="openCvReady();"></script>
-  <script src="src/dronecv.js" defer></script>
+  <script src="./src/dronecv.js" defer></script>
+
 </body>
 </html>
