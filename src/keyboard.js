@@ -19,6 +19,8 @@ function KeyEnd() {
     clearInterval(counter);
 }
 
+//TODO: Update to use ctrl+{key} inputs only.
+
 function KeyDown(event) {
     //document.getElementById(`last-keypress`).innerText = event.key + " Pressed";
 
