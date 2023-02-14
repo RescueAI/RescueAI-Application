@@ -100,37 +100,37 @@
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Backward </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Left </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Right </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Left </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Right </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Left </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
                 <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward </td>
+                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Ascend </td>
                   <td> 02:02:21 </td>
                   <td> 15:40:02 </td>
                 </tr>
@@ -144,27 +144,27 @@
             
             <!-- W row -->
             <div class="kb-NULL"></div>
-            <button id="kb-w" class="kb-btn" title="Move Forward" onclick="move_forward()">W</button>           
+            <button id="kb-w" class="kb-btn" title="Move Forward" onclick="() => move_forward()">W</button>           
             <div class="kb-NULL"></div>
 
             <!-- ASD row -->
-            <button id="kb-a" class="kb-btn" title="Move Left" onclick="move_left()">A</button>
-            <button id="kb-s" class="kb-btn" title="Move Backwards" onclick="move_backward()">S</button>
-            <button id="kb-d" class="kb-btn" title="Move Right" onclick="move_right()">D</button>
+            <button id="kb-a" class="kb-btn" title="Move Left" onclick="() => move_left()">A</button>
+            <button id="kb-s" class="kb-btn" title="Move Backwards" onclick="() => move_backward()">S</button>
+            <button id="kb-d" class="kb-btn" title="Move Right" onclick="() => move_right()">D</button>
           </div>
 
           <div class="kb-control">
             
             <!-- UP row -->
             <div class="kb-NULL"></div>
-            <button id="kb-ArrowUp" class="kb-btn" title="Ascend" onclick="ascend()">🢁</button>
+            <button id="kb-ArrowUp" class="kb-btn" title="Ascend" onclick="() => ascend()">🢁</button>
             <div class="kb-NULL"></div>
 
             <!-- Rotate Left, DOWN, Rotate Right row -->
             <!-- TODO: Replace with better icons -->
-            <button id="kb-ArrowLeft" class="kb-btn" title="Rotate Left" onclick="rot_left()">🢀</button>
-            <button id="kb-ArrowDown" class="kb-btn" title="Descend" onclick="descend()">🢃</button>
-            <button id="kb-ArrowRight" class="kb-btn" title="Rotate Right" onclick="rot_right()">🢂</button>
+            <button id="kb-ArrowLeft" class="kb-btn" title="Rotate Left" onclick="() => rot_left()">🢀</button>
+            <button id="kb-ArrowDown" class="kb-btn" title="Descend" onclick="() => descend()">🢃</button>
+            <button id="kb-ArrowRight" class="kb-btn" title="Rotate Right" onclick="() => rot_right()">🢂</button>
           </div>
           
         </div>
