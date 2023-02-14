@@ -1,82 +1,101 @@
-html, 
+@import url("./src/css/control.css");
+@import url("./src/css/mission.css");
+@import url("./src/css/event.css");
+@import url("./src/css/video.css");
+@import url("./src/css/general.css");
+
+html,
 body {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    background-color: #434343;
+	height: 100%;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+	background-color: #434343;
+}
+
+:root {
+	--btn-primary-text: #fff;
+	--btn-primary: #445360;
+	--btn-primary-hover: #5a6e7f;
+	--btn-primary-active: #2c363f;
+
+    /*scroll bar colors*/
+    --scrollbar-track:#3f4040;
+    --scrollbar-thumb:#8e8e8e;
+    --scrollbar-thumb-hover:#626263;
+
+	/*keyboard button colors*/
+	--btn-kb-text: #fff;
+	--btn-kb: #595959;
+	--btn-kb-hover: rgb(53, 53, 53);
+	--btn-kb-active: #2c363f;
+	--btn-kb-border: lightgray;
+
+	/*Dialog colors*/
+	--dialog-header-bg: #666666;
+	--dialog-content-bg: #737373;
+	--dialog-item-bg: #595959;
 }
 
 .app-layout {
-    display:grid;
-    grid-template-columns: [line1] 50% [line2] 50%;
-    grid-template-rows: [row1-start] 50% [row2-start] 50%;
-    width: 100%;
-    height: 100%;
+	display: grid;
+	grid-template-columns: [line1] 50% [line2] 50%;
+	grid-template-rows: [row1-start] 50% [row2-start] 50%;
+	width: 100%;
+	height: 100%;
 }
 
 .app-module-wrapper {
-    box-sizing: border-box;
-    padding: 0.5%;
-    border: 0.1px solid cyan;
+	box-sizing: border-box;
+	padding: 0.5%;
+	border: 0.1px solid cyan;
 }
 
 .app-mission-wrapper {
-    display:flex;
-    border: 1px solid purple;
-    height: 100%;
+	display: flex;
+	border: 1px solid purple;
+	height: 100%;
 }
 
 .app-video-wrapper {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid red;
-    height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid red;
+	height: 100%;
 }
 
 .app-event-wrapper {
-    display:flex;
-    border: 1px solid blue;
-    height: 100%;
+	display: flex;
+	border: 1px solid blue;
+	height: 100%;
 }
 
 .app-control-wrapper {
-    display:flex;
-    flex-direction: column;
-    border: 1px solid yellow;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	/*border: 1px solid yellow;*/
+	height: 100%;
 }
 
-.video-view {
-    background-color: green;
-    width: 100%;
-    aspect-ratio: 16/9;
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
 }
 
-.kb-control-box {
-    display: flex; 
-    justify-content: space-between; 
-    padding: 25px; 
-    box-sizing: border-box;
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track); 
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
 }
 
-.kb-control {
-    display:grid;
-    grid-template-columns: [line1] 50px [line2] 50px [line3] 50px;
-    grid-template-rows: [row1-start] 50px [row2-start] 50px;
-    gap: 2px;
-}
-
-.kb-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 20%;
-    background-color: #595959;
-    color: white;
-    border: 1px solid lightgray;
-}
-
-.kb-btn:hover {
-    background-color: rgb(53, 53, 53);
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
 }
