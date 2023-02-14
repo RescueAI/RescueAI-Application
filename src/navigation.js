@@ -12,7 +12,6 @@
 
     function move_forward() {
         document.getElementById(`last-keypress`).innerText = "[Navigation]: Move Forward Event Pressed";
-
         //TODO: Send drone command.
 
         

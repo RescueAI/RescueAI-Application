@@ -63,7 +63,7 @@
       <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
       <div class="app-video-wrapper">
         <canvas id="image-output" class="video-view"></canvas>
-        <p style="position: absolute">TODO: VIDEO STREAM</p>
+        <p id="todo-text" style="position: absolute">TODO: VIDEO STREAM</p>
       </div>
     </div>
 
@@ -144,27 +144,27 @@
             
             <!-- W row -->
             <div class="kb-NULL"></div>
-            <button id="kb-w" class="kb-btn" title="Move Forward" onclick="() => move_forward()">W</button>           
+            <button id="kb-w" class="kb-btn" title="Move Forward" onclick="move_forward()">W</button>           
             <div class="kb-NULL"></div>
 
             <!-- ASD row -->
-            <button id="kb-a" class="kb-btn" title="Move Left" onclick="() => move_left()">A</button>
-            <button id="kb-s" class="kb-btn" title="Move Backwards" onclick="() => move_backward()">S</button>
-            <button id="kb-d" class="kb-btn" title="Move Right" onclick="() => move_right()">D</button>
+            <button id="kb-a" class="kb-btn" title="Move Left" onclick="move_left()">A</button>
+            <button id="kb-s" class="kb-btn" title="Move Backwards" onclick="move_backward()">S</button>
+            <button id="kb-d" class="kb-btn" title="Move Right" onclick="move_right()">D</button>
           </div>
 
           <div class="kb-control">
             
             <!-- UP row -->
             <div class="kb-NULL"></div>
-            <button id="kb-ArrowUp" class="kb-btn" title="Ascend" onclick="() => ascend()">🢁</button>
+            <button id="kb-ArrowUp" class="kb-btn" title="Ascend" onclick="ascend()">🢁</button>
             <div class="kb-NULL"></div>
 
             <!-- Rotate Left, DOWN, Rotate Right row -->
-            <!-- TODO: Replace with better icons -->
-            <button id="kb-ArrowLeft" class="kb-btn" title="Rotate Left" onclick="() => rot_left()">🢀</button>
-            <button id="kb-ArrowDown" class="kb-btn" title="Descend" onclick="() => descend()">🢃</button>
-            <button id="kb-ArrowRight" class="kb-btn" title="Rotate Right" onclick="() => rot_right()">🢂</button>
+            <!-- TODO: Add labels -->
+            <button id="kb-ArrowLeft" class="kb-btn" title="Rotate Left" onclick="rot_left()">🢀</button>
+            <button id="kb-ArrowDown" class="kb-btn" title="Descend" onclick="descend()">🢃</button>
+            <button id="kb-ArrowRight" class="kb-btn" title="Rotate Right" onclick="rot_right()">🢂</button>
           </div>
           
         </div>
