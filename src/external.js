@@ -1,17 +1,9 @@
 document.getElementById("kb-w").onclick = () => {
-    //testAdd();
-  };
-
-
+    testAdd();
+};
 
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
-}
-
-
-
-function addTableRow(id) {
-    table = document.getElementById(id)
 }
 
 function testAdd()
@@ -22,8 +14,8 @@ function testAdd()
         "localtime":"01:102:3"
     }
 
-    addCommandLog(data);
-    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"IMAGE"})
+    addCommandLog({"message":"User Action - Forward", "timestamp":"01:20:10", "localtime":"01:32:23"});
+    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-shirt-white-background-person-gray-photo-placeholder-man-132818487.jpg"})
 }
 
 function addCommandLog(data)
@@ -54,29 +46,40 @@ function addEventLog(data)
 
     row.insertCell(1).innerHTML= data.timestamp;
     row.insertCell(2).innerHTML= data.localtime;
-    row.insertCell(3).innerHTML= data.thumbnail;
+ 
+    let imgCell =  row.insertCell(3);
+    
+    let imgDiv = document.createElement('div');
+    imgDiv.className="event-img-container"
+    imgCell.appendChild(imgDiv);
 
-    let cell = row.insertCell(4);
-    cell.id = `event-btn-cell-${rowCount}`;
+    let image = document.createElement('img');
+    image.src = data.thumbnail;
+    image.className = "event-img"
+
+    imgDiv.appendChild(image);
+
+    let btnCell = row.insertCell(4);
+    btnCell.id = `event-btn-cell-${rowCount}`;
     
     //Create div where confirm/decline buttons will go.
-    let div = document.createElement('div');
-    div.id = `event-btn-div-${rowCount}`;
-    div.className="event-btn-container"
+    let btnDiv = document.createElement('div');
+    btnDiv.id = `event-btn-div-${rowCount}`;
+    btnDiv.className="event-btn-container"
     //Append div to the cell
-    cell.appendChild(div);
+    btnCell.appendChild(btnDiv);
 
     let btnAccept = document.createElement('button');
     btnAccept.className = "primary-btn btn-accept event-btn noselect";
     btnAccept.innerHTML = "✓";
     btnAccept.onclick = () => { event_accept(row.id); }
-    div.appendChild(btnAccept);
+    btnDiv.appendChild(btnAccept);
     
     let btnDecline = document.createElement('button');
     btnDecline.className = "primary-btn btn-decline event-btn noselect";
     btnDecline.innerHTML = "✕";
     btnDecline.onclick = () => { event_decline(row.id); }
-    div.appendChild(btnDecline);
+    btnDiv.appendChild(btnDecline);
 
     setTimeout(1);
 }
