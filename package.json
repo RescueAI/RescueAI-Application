@@ -16,13 +16,22 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@arition/torch-js": "^0.14.0",
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
+    "@tensorflow-models/coco-ssd": "^2.2.2",
+    "@tensorflow/tfjs-converter": "^4.2.0",
+    "@tensorflow/tfjs-node": "^4.2.0",
     "ar-drone": "^0.3.3",
     "babel-loader": "^9.1.2",
     "concurrently": "^7.6.0",
     "electron-reload": "^2.0.0-alpha.1",
     "fs": "0.0.1-security",
-    "path": "^0.12.7"
+    "jimp": "^0.22.7",
+    "node-fetch": "^2.6.9",
+    "node-red-contrib-tfjs-coco-ssd": "^1.0.5",
+    "node-webcam": "^0.8.1",
+    "path": "^0.12.7",
+    "pytorchjs": "^0.1.5"
   }
 }

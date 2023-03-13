@@ -1,5 +1,5 @@
-const electron = require('electron');
-const globalShortcut = electron.remote.globalShortcut;
+// const electron = require('electron');
+// const globalShortcut = electron.remote.globalShortcut;
 
 //TODO: Implement script to read button id's and assign specific buttons to a keyboard input.
 
