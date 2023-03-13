@@ -43,7 +43,7 @@
     <div class="app-module-wrapper">
       <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
       <div class="app-video-wrapper">
-        <img id="image-output" class="video-view" src="test.png"></img>
+        <img id="image-output" class="video-view" autoplay></img>
         <p style="position: absolute">TODO: VIDEO STREAM</p>
       </div>
     </div>
@@ -100,6 +100,10 @@
       </div>
     </div>
   </div>
+
+  <script>
+    window['tfjs'] = tf;
+  </script>
 
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script src="src/dronecv.js" type="module" defer></script>
