@@ -81,7 +81,6 @@ function addEventLog(data)
     btnDecline.onclick = () => { event_decline(row.id); }
     btnDiv.appendChild(btnDecline);
 
-    setTimeout(1);
 }
 
 function event_accept(row_id)
