@@ -30,11 +30,15 @@ body {
 	--btn-kb-hover: rgb(53, 53, 53);
 	--btn-kb-active: #2c363f;
 	--btn-kb-border: lightgray;
+	--btn-accept: #03BE00;
+	--btn-decline: #FF4141;
+
 
 	/*Dialog colors*/
 	--dialog-header-bg: #666666;
 	--dialog-content-bg: #737373;
 	--dialog-item-bg: #595959;
+	
 }
 
 .app-layout {

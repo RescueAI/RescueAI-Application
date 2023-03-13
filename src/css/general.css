@@ -28,6 +28,14 @@
 	background-color: var(--btn-primary-active);
 }
 
+.btn-accept {
+	background-color: var(--btn-accept);
+}
+
+.btn-decline {
+	background-color: var(--btn-decline);
+}
+
 .m-1 {
 	margin: 1px;
 }

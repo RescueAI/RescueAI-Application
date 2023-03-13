@@ -1,5 +1,5 @@
 document.getElementById("kb-w").onclick = () => {
-    testAdd();
+    //testAdd();
   };
 
 
@@ -16,17 +16,14 @@ function addTableRow(id) {
 
 function testAdd()
 {
-    console.log("PRINT");
-
     let data = {
-        "command":"WOW",
+        "message":"WOW",
         "timestamp":"01:102:2",
-        "runtime":"01:102:3"
+        "localtime":"01:102:3"
     }
 
-    let ob = JSON.parse(data);
-
-    addCommandLog(ob);
+    addCommandLog(data);
+    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"IMAGE"})
 }
 
 function addCommandLog(data)
@@ -34,7 +31,70 @@ function addCommandLog(data)
     let table = document.getElementById("command-log-table");
     let rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= data.command;
+
+    let msg = row.insertCell(0)
+    msg.className="alert-log"
+    msg.innerHTML= data.message;
+
     row.insertCell(1).innerHTML= data.timestamp;
-    row.insertCell(2).innerHTML= data.runtime;
+    row.insertCell(2).innerHTML= data.localtime;
+}
+
+function addEventLog(data)
+{
+    let table = document.getElementById("event-log-table");
+    let rowCount = table.rows.length;
+
+    let row = table.insertRow(1);
+    row.id = `event-row-${rowCount}`;
+
+    let msg = row.insertCell(0)
+    msg.className="alert-log"
+    msg.innerHTML= data.message;
+
+    row.insertCell(1).innerHTML= data.timestamp;
+    row.insertCell(2).innerHTML= data.localtime;
+    row.insertCell(3).innerHTML= data.thumbnail;
+
+    let cell = row.insertCell(4);
+    cell.id = `event-btn-cell-${rowCount}`;
+    
+    //Create div where confirm/decline buttons will go.
+    let div = document.createElement('div');
+    div.id = `event-btn-div-${rowCount}`;
+    div.className="event-btn-container"
+    //Append div to the cell
+    cell.appendChild(div);
+
+    let btnAccept = document.createElement('button');
+    btnAccept.className = "primary-btn btn-accept event-btn noselect";
+    btnAccept.innerHTML = "✓";
+    btnAccept.onclick = () => { event_accept(row.id); }
+    div.appendChild(btnAccept);
+    
+    let btnDecline = document.createElement('button');
+    btnDecline.className = "primary-btn btn-decline event-btn noselect";
+    btnDecline.innerHTML = "✕";
+    btnDecline.onclick = () => { event_decline(row.id); }
+    div.appendChild(btnDecline);
+
+    setTimeout(1);
+}
+
+function event_accept(row_id)
+{
+    let row = document.getElementById(row_id);
+    row.style = "border: 2px solid blue";
+}
+
+function event_decline(row_id)
+{
+    //TODO: Manage Files.
+
+    //document.getElementById("event-log-table").deleteRow(rowCount);
+
+    let row = document.getElementById(row_id);
+    
+    console.log(`Deleting Event: ${row_id}`);
+    document.getElementById("event-log-table").deleteRow(row.rowIndex);
 }
