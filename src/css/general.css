@@ -36,6 +36,10 @@
 	background-color: var(--btn-decline);
 }
 
+.btn-card {
+	background-color: var(--btn-decline);
+}
+
 .m-1 {
 	margin: 1px;
 }
