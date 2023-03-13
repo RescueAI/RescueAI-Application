@@ -90,6 +90,18 @@
       </div>
     </div>
 
+    <script>
+      function SaveEventLog(fileName, Event_Log){
+        const link = document.createElement("a");
+        const content = Event_Log
+        const file = new Blob([content], { type: 'text/plain' });
+        link.href = URL.createObjectURL(file);
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+    </script>
+
     <!-- Navigation Control and Action Alerts Module -->
     <div class="app-module-wrapper">
       <div class="app-control-wrapper">
