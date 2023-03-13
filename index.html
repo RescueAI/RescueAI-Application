@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RescueAI - Automated Search and Rescue</title>
   <script src="./render.js" type="module" defer></script>
-  <script async type="text/javascript" src="src/external.js" defer></script>
   <script src="./src/navigation.js"></script>
 </head>
 <body>
@@ -70,7 +69,24 @@
     <!-- Event Alerts Module -->
     <div class="app-module-wrapper">
       <div class="app-event-wrapper">
-        <div class="event-log-container">Event Container</div>
+        <div class="event-log-container">
+          <div class="dialog">
+            <div class="dialog-content r-inherit"> <!-- LOG DATA HERE -->
+              <table id=event-log-table class="alert-table">
+                <tr>
+                  <th class="noselect alert-log"> Alert Notifications </th>
+                  <th class="noselect"> Time Stamp</th>
+                  <th class="noselect"> Local Time</th>
+                  <th class="noselect"> Thumbnail</th>
+                  <th class="noselect"> Alert Valid</th>
+                </tr>
+
+                
+              </table>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -93,46 +109,6 @@
                   <th class="alert-log"> Command Notifications </th>
                   <th> Time Stamp</th>
                   <th> Local Time</th>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Forward  </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Backward </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Left </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Right </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Left </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Right </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Rotate Left </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
-                </tr>
-                <tr>
-                  <td id='last-keypress' class="alert-log"> Command ISSUED - User Action - Ascend </td>
-                  <td> 02:02:21 </td>
-                  <td> 15:40:02 </td>
                 </tr>
               </table>
             </div>
@@ -177,6 +153,7 @@
 
   <script src="./src/keyboard.js"></script>
   <script async src="./opencv.js" onload="openCvReady();"></script>
+  <script type="text/javascript" src="src/external.js" defer></script>
   <script src="./src/dronecv.js" defer></script>
 
 </body>
