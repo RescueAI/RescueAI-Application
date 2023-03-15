@@ -15,7 +15,8 @@ function testAdd()
     }
 
     addCommandLog({"message":"User Action - Forward", "timestamp":"01:20:10", "localtime":"01:32:23"});
-    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-shirt-white-background-person-gray-photo-placeholder-man-132818487.jpg"})
+    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-shirt-white-background-person-gray-photo-placeholder-man-132818487.jpg"});
+    addMission("");
 }
 
 function addCommandLog(data)
@@ -99,4 +100,15 @@ function event_decline(row_id)
     
     console.log(`Deleting Event: ${row_id}`);
     document.getElementById("event-log-table").deleteRow(row.rowIndex);
+}
+
+function addMission(data)
+{
+    let container = document.getElementById("m-select");
+
+    let card = document.createElement('button');
+    card.className = "mission-card";
+    card.innerHTML = "Mission Card";
+    
+    container.appendChild(card);
 }
