@@ -3,7 +3,7 @@ const path = require('path');
 
 //Dev tool to allow live reloading of application on file changes.
 const electron = require('electron');
-require('electron-reload')(__dirname);
+//require('electron-reload')(__dirname);
 
 const createWindow = () => {
   const win = new BrowserWindow({
