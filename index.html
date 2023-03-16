@@ -17,23 +17,50 @@
     <div class="app-module-wrapper">
       <div class="app-mission-wrapper">
         <!-- TODO: Mission Configuration Dialog-->
-        <div class="mission-config-container">Mission Configuration
-            <div class="input-container" style="display:flex; flex-direction:column; flex-grow: 1;">
-              TODO: Mission Planning Configuration Stuff HERE
-            </div>
-            <div class="input-options" style="display:flex">
-              <button class="primary-btn m-1 w-full"> Reset </button>
-              <button class="primary-btn m-1 w-full"> Save </button>
-            </div>
+        <div class="mission-config-container m-config-dialog">
+
+          <div class="mission-config-list">
+              <div class="dialog" >
+                  <p class="dialog-header" style="background-color: var(--btn-primary);  width:100%; display: flex; align-items:center;">
+                    Mission Configuration
+                  </p>
+
+                  <div class="dialog-content" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;"> <!-- LOG DATA HERE -->
+                    <table id="mission-instruction-table" class="input-table" style=>
+                      <tr>
+                        <th class=""> Command </th>
+                        <th class=""> Speed   </th>
+                        <th class=""> Duration</th>
+                      </tr>   
+
+  
+
+                    </table>
+                  </div>
+                  
+                  <div class="mission-config-options" style="padding-bottom: 0px;">
+                    <button class="primary-btn m-1 w-full" onclick="mission_add_instruction()"> Add Instruction </button>
+                    <button class="primary-btn m-1 w-full" onclick="mission_remove_instruction()"=> Remove Instruction </button>
+                  </div>
+                  <div class="mission-config-options">
+                    <button class="primary-btn m-1 w-full" onclick="mission_reset()"> Reset </button>
+                    <button class="primary-btn m-1 w-full" onclick="mission_save()"> Save </button>
+                  </div>
+              </div>
+          </div> 
+
+
+
+
         </div>
 
         <!-- TODO: Mission Controls -->
         <div class="mission-control-container">
           <!-- TODO: Mission CRUD Operations -->
           <div class="mission-crud">
-            <button class="primary-btn m-1 w-full" onclick="clicked('NEW', false)">New</button>
-            <button class="primary-btn m-1 w-full" onclick="clicked('EDIT', false)">Edit</button>
-            <button class="primary-btn m-1 w-full" onclick="clicked('DELETE', false)">Delete</button>
+            <button class="primary-btn m-1 w-full" onclick="mission_new('NEW', false)">New Mission</button>
+            <button class="primary-btn m-1 w-full" onclick="mission_edit('EDIT', false)">Edit Mission</button>
+            <button class="primary-btn m-1 w-full" onclick="mission_delete('DELETE', false)">Delete Mission</button>
           </div>
           <!-- TODO: Display Mission Configurations -->
           <div class="mission-select-container">
@@ -151,6 +178,7 @@
   <script src="./src/keyboard.js"></script>
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script type="text/javascript" src="src/external.js" defer></script>
+  <script type="text/javascript" src="src/mission.js" defer></script>
   <!--script src="./src/dronecv.js" defer></script-->
 
 </body>

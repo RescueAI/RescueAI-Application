@@ -2,16 +2,105 @@
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	border: 1px solid cornflowerblue;
+	/*border: 1px solid cornflowerblue;*/
 	min-width: 150px;
+}
+
+.mission-config-list {
+	display:flex; 
+	flex-direction:column; 
+	flex-grow: 1;
+
+	/*border: 1 solid yellow;*/
+	width: 100%;
+	height: 100%;
+	padding-right: 5px;
+	box-sizing: border-box;
+}
+
+.input-table {
+	width: 100%;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	font-size: 12px;
+	height: min-content;
+}
+
+.input-table tr {
+	line-height: 30px;
+	text-align: start;
+}
+
+.input-table th {
+	background-color: var(--dialog-header-bg);
+	font-weight: 200;
+	position: sticky;
+	top:0;
+
+	white-space: nowrap;
+
+	text-align: start;
+	padding-left: 20px;
+	box-sizing: border-box;
+
+	height: 40px;
+}
+
+.input-table td {
+	background-color: var(--dialog-item-bg);
+	border: solid;
+	border-color: var(--dialog-content-bg);
+	border-width: 1px 0;
+
+	text-align: start;
+	padding-left: 20px;
+	box-sizing: border-box;
+}
+
+.mission-config-options {
+	display:flex; 
+	width:100%; 
+	padding:5px; 
+	box-sizing: 
+	border-box;
+}
+
+
+@media (min-width: 1600px) {
+	.mission-config-list {
+		font-size: large;
+	}
+
+	.mission-card {
+		max-width: 245px;;
+	}
+}
+
+@media (max-width: 1200px) {
+	.mission-config-list .dialog {
+		font-size: x-small;
+	}
+
+	.mission-config-list table {
+		font-size: x-small;
+	}
+
+	.mission-config-options .primary-btn {
+		font-size: x-small;
+	}
+
+	.mission-card {
+		max-width: 105.25px;
+	}
 }
 
 .mission-control-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	flex: 3;
-	border: 1px solid pink;
+	flex: 2;
+
+	/*border: 1px solid pink;*/
 	width: 100%;
 	height: auto;
 }
@@ -27,7 +116,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 5px;
+	padding: 5px 0 5px 0;
 	box-sizing: border-box;
 	flex-grow: 4;
 	width: 100%;
@@ -61,6 +150,7 @@
 
 .mission-card {
 	aspect-ratio: 1;
+
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
 	background-color: var(--btn-card);

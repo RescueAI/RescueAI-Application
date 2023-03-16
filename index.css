@@ -57,12 +57,12 @@ body {
 .app-module-wrapper {
 	box-sizing: border-box;
 	padding: 0.5%;
-	border: 0.1px solid cyan;
+	border: 0.1px solid rgb(53, 53, 53);
 }
 
 .app-mission-wrapper {
 	display: flex;
-	border: 1px solid purple;
+	/*border: 1px solid purple;*/
 	height: 100%;
 }
 
@@ -76,6 +76,7 @@ body {
 
 .app-event-wrapper {
 	display: flex;
+	flex-direction: column;
 	/*border: 1px solid blue;*/
 	height: 100%;
 }
