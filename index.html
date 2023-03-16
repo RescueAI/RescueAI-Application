@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/2.0.0/tf.js" integrity="sha512-58bSPbRBRGckuUTHA8UV5f75UZYkefl85FnJft7bdw02DwhB5sGo84u5D7NJAmBq51+UtSufgGj0ihMD4FK9kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,8 +61,8 @@
     <div class="app-module-wrapper">
       <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
       <div class="app-video-wrapper">
-        <canvas id="image-output" class="video-view"></canvas>
-        <p id="todo-text" style="position: absolute">TODO: VIDEO STREAM</p>
+        <img id="source-image" class="video-view"></img>
+        <canvas id="image-output"></canvas>
       </div>
     </div>
 
@@ -149,12 +149,16 @@
     </div>
   </div>
 
-  <!--Inline JS stuff below-->
+  <script>
+    window['tfjs'] = tf;
+  </script>
 
   <script src="./src/keyboard.js"></script>
   <script async src="./opencv.js" onload="openCvReady();"></script>
+  <script src="src/dronecv.js" type="module" defer></script>
+
+  
   <script type="text/javascript" src="src/external.js" defer></script>
-  <script src="./src/dronecv.js" defer></script>
 
 </body>
 </html>

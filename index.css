@@ -99,6 +99,12 @@ body {
     background: var(--scrollbar-thumb);
 }
 
+.kb-btn:hover {
+    background-color: rgb(53, 53, 53);
+}
+#source-image {
+    display: none;
+}
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-thumb-hover);
