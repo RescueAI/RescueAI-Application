@@ -80,3 +80,6 @@ body {
 .kb-btn:hover {
     background-color: rgb(53, 53, 53);
 }
+#source-image {
+    display: none;
+}

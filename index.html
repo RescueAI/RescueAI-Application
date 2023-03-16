@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/2.0.0/tf.js" integrity="sha512-58bSPbRBRGckuUTHA8UV5f75UZYkefl85FnJft7bdw02DwhB5sGo84u5D7NJAmBq51+UtSufgGj0ihMD4FK9kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,8 +43,9 @@
     <div class="app-module-wrapper">
       <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
       <div class="app-video-wrapper">
-        <img id="image-output" class="video-view" autoplay></img>
-        <p style="position: absolute">TODO: VIDEO STREAM</p>
+        <img id="source-image" class="video-view"></img>
+        <canvas id="image-output"></canvas>
+
       </div>
     </div>
 
