@@ -36,6 +36,10 @@
 	background-color: var(--btn-decline);
 }
 
+.btn-card {
+	background-color: var(--btn-decline);
+}
+
 .m-1 {
 	margin: 1px;
 }
@@ -46,6 +50,11 @@
 
 .r-inherit {
 	border-radius: inherit;
+}
+
+.p-5 {
+	padding: 5px;
+	box-sizing: border-box;
 }
 
 
@@ -61,7 +70,7 @@
 	height: 100%;
 	width: 100%;
 
-	border: 1px solid grey;
+	background-color: var(--dialog-content-bg);
 	border-radius: 5px;
 }
 
@@ -89,8 +98,6 @@
 
 	border-bottom-right-radius: inherit;
 	border-bottom-left-radius: inherit;
-
-	background-color: var(--dialog-content-bg);
 
 	flex-grow: 4;
 	overflow-y: auto;

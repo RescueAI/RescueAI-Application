@@ -28,10 +28,11 @@ function KeyDown(event) {
     //document.getElementById(`last-keypress`).innerText = event.key + " Pressed";
 
     let button = document.getElementById(`kb-${event.key}`);
-    button.style = "background-color: var(--btn-kb-active);";
+    
     //TODO: Start button held action. Will need something like KeyStart above.
-    if(!key_active)
+    if(!key_active && button !== null)
     {
+        button.style = "background-color: var(--btn-kb-active);";
         key_active = true;
         button.click();
     }
@@ -42,8 +43,13 @@ function KeyUp(event) {
     key_active = false;
 
     let button = document.getElementById(`kb-${event.key}`);
-    button.style = 'none'
-    //TODO: Stop button held action. Will need something like KeyStop above.
+
+    if(button !== null)
+    {
+        button.style = 'none'
+        //TODO: Stop button held action. Will need something like KeyStop above.
+    }
+
 }
 
 window.addEventListener('keydown', KeyDown, true);
