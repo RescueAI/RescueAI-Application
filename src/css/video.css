@@ -1,0 +1,20 @@
+.video-view {
+	background-color: green;
+	max-width: 100%;
+	max-height: 100%;
+	aspect-ratio: 16/9;
+}
+
+@media (min-width: 486px) {
+	.video-view {
+		width:auto;
+		height: 100%;
+	}
+}
+
+@media (max-width: 485px) {
+	.video-view {
+		height: auto;
+		width: 100%;
+	}
+}
