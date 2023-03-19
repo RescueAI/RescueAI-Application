@@ -75,7 +75,7 @@ const updateStream = () => {
   const outputCanvas = document.getElementById("image-output");
   const src = cv.imread(sourceImage);
   const dst = src.clone();
-
+  
   if (boxes) {
     console.log(boxes)
     const color = new cv.Scalar(0, 255, 0);
