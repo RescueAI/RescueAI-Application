@@ -94,7 +94,7 @@ const server = http.createServer((req, res) => {
 		res.end("lights on");
 	}
 
-	console.log(req.url);
+	//console.log(req.url);
 
 });
 
