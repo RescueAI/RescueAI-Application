@@ -96,6 +96,258 @@ const server = http.createServer((req, res) => {
 
 	//console.log(req.url);
 
+	//Update missions with new mission set.
+	if(req.url === "/post_missions" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		req.on('end', () => {
+			fs.writeFile('./data/missions.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not save mission data");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Mission data saved successfully");
+				}
+			});
+		});
+	}
+
+	//Read current missions
+	if(req.url === "/get_missions" && req.method === 'GET') {
+		fs.readFile('./data/missions.json', (err, data) => {
+			if(err) 
+			{
+				console.error(err);
+				res.statusCode = 500;
+				res.end("Error: Could not read mission data");
+			}
+			else
+			{
+				res.statusCode = 200;
+				res.setHeader("Content-Type", "application/json");
+				res.end(data);
+			}
+		});
+	}
+
+	if(req.url === "/api/drone/move/forward" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone forward");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved forward");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/backward" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone backward");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved backward");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/left" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone left");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved left");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/right" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone right");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved right");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/up" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone up");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved up");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/down" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone down");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved down");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/rotate-left" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not rotate drone left");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully rotated left");
+				}
+			});
+		});
+	}
+
+	if(req.url === "/api/drone/move/rotate-right" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			body += chunk.toString();
+		})
+
+		//TODO: Forward move command here
+		req.on('end', () => {
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not rotate drone right");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully rotated right");
+				}
+			});
+		});
+	}
+
 });
 
 server.listen(6969, () => {
@@ -186,5 +438,8 @@ async function webCamCapture() {
 		console.log("written");
 	});
 }
+
+
+
 
 //export default drone;
