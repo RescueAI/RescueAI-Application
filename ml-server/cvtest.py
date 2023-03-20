@@ -33,7 +33,7 @@ def get_boxes():
     image_file = request.files.get('image', '')
     image = Image.open(image_file.stream)
     results = model(image)
-    return jsonify({'boxes': results[0].boxes.xywh.tolist()}), 200
+    return jsonify({'boxes': results[0].boxes.xyxy.tolist()}), 200
 
 @app.route("/predict_img")
 def predict_img():

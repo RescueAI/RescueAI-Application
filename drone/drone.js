@@ -50,7 +50,6 @@ const server = http.createServer((req, res) => {
 		webCamCapture();
 		if (lastPng) {
 			try {
-				console.log("PNG written");
 				//res.writeHead('200', {'Content-Type': 'image/png'});
 				
 				
@@ -76,16 +75,10 @@ const server = http.createServer((req, res) => {
 	}
 
 	if (req.url === "/get_boxes") {
-		console.log(typeof boxes)
-		console.log(boxes?.boxes);
-		console.log(`boxes in get_boxes ${boxes}`)
 		if (typeof boxes === undefined || !boxes) {
-			console.log("end empty string")
 			res.end("");
 			return;
 		}
-		console.log("return boxes")
-		console.log(boxes?.boxes)
 		res.end(JSON.stringify(boxes?.boxes));
 	}
 
@@ -109,7 +102,6 @@ async function initializeTf() {
 async function detect(image) {
 	const buf = fs.readFileSync('./src/known.jpg')
 	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
-	console.log(`image undefined = ${image === undefined}`)
 	if(image === undefined) return;
 	try {
 		
@@ -120,7 +112,6 @@ async function detect(image) {
 		formData.append('image', fs.createReadStream('./src/known.jpg'));
 		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
 		boxes = response.data;
-		console.log(`boxes in ml req ${boxes}`);
 
 		// const req = http.request(mlreqOptions, res => {
 		// 	res.on('data', data => {
@@ -150,18 +141,15 @@ async function detect(image) {
 		console.log(e)
 	}
 	
-	console.log("func end")
 }
 
 const getPreBoxImage = async (image) => {
 	const buf = fs.readFileSync('./src/known.jpg')
 	const req = http.request(predictOptions, res => {
 		res.on('data', data => {
-			console.log(data);
 			preBoxedImg = data;
 		})
 	});
-	console.log("writing buffer and ending")
 	const data = {image: buf};
 	const dataBuffer = Buffer.from(JSON.stringify(data))
 	req.write(dataBuffer);
@@ -181,9 +169,7 @@ async function webCamCapture() {
 	webcam.clear();
 	await webcam.capture("test", (err, data) => {
 		if(err) console.log(err);
-		console.log(data)
 		lastPng = data;
-		console.log("written");
 	});
 }
 
