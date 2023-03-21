@@ -98,7 +98,7 @@ function addMission(mission)
     card.className = "mission-card";
     card.id = `m-card-mission-${mission.id}`
     card.innerHTML = `<h3>${mission.name}</h3>`//"Mission Card";
-    card.onclick = select_mission(mission.id);
+    //card.onclick = select_mission(mission.id);
 
     container.appendChild(card);
 }
