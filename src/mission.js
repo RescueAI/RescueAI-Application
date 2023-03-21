@@ -10,6 +10,71 @@ const restraint = {
 };
 //TODO load missions if they exist,
 
+let MISSION_LIST;
+let ACTIVE_MISSION;
+
+window.onload = function() {
+    load_missions(false);
+}
+
+//Call this function after certain actions to update UI
+async function load_missions(reload)
+{
+    try 
+    {
+        let missions;
+
+        if(!reload){
+            //Load missions only if MISSION_LIST is NULL
+            missions = await mission_get(MISSION_LIST);
+            //TODO: Replace missions in UI
+        }
+        else
+        {
+            //Load general saved missions regardless of content.
+            missions = await mission_get(null);
+            //TODO: Replace missions in UI
+        }
+
+        for(let i = 0; i < missions.length; i++)
+        {
+            addMission(missions[i]);
+        }
+        MISSION_LIST = missions;
+    }
+    catch (error)
+    {
+        console.error(`Error: ${error}`);
+    }
+}
+
+/**
+ * Function to be attached to mission cards onclick event 
+ * at time of card generation in addMission(mission)
+ * @param {*} id 
+ */
+function select_mission(id)
+{
+    for(let i = 0; i < MISSION_LIST.length; i++)
+    {
+        if(MISSION_LIST[i].id === id)
+        {
+            load_mission_context(MISSION_LIST[i]);
+        }
+    }
+}
+
+function load_mission_context(mission)
+{
+    ACTIVE_MISSION = mission;
+
+    //TODO: Load mission context into mission builder
+
+}
+
+
+
+
 function mission_new()
 {
     //TODO: Add mission card
@@ -19,6 +84,9 @@ function mission_new()
 
 function mission_edit()
 {
+    //TODO: Get selected mission's id.
+    console.log(MISSION_LIST[0])
+    //TODO: Find mission id in the mission set
 
 }
 
@@ -111,9 +179,9 @@ function mission_load_instruction(instruction)
 
     if(!mission_validate_instruction(instruction))
     {
-        console.log("valid instruction parameters for numbers are all set to 1. Please mission_load_instruction function")
+        console.log("valid instruction parameters for numbers are all set to 1. Please see mission_load_instruction function")
         console.error("Invalid instruction data attempted to be loaded in mission builder\n");
-        return NULL;
+        return null;
     }
     
     //TODO: Generate row element with inputs.
@@ -234,29 +302,88 @@ function getInstructionList()
 
 
 
+
 function mission_save()
 {
-    //let fs = require("fs");
+
 
     //TODO: Check if mission already saved -> do nothing
+    let old = mission_get();
+
+    //TODO: Compare with local mission set.
+
+
+
 
     //TODO: Else check if mission to be saved already exists on file -> update file.
 
     //TODO: Else make a new file.
 
     let data = getInstructionList();
-    let json = JSON.stringify(data);
 
-    //fs.writeFile("./bin/data.json", json, (err) =>
-    //{
-    //    if(err) throw err;
-    //    console.log('Data written to file');
-    //});
 
+
+    let missions = mission_get();
+    mission_post(missions);
+    console.log(missions);
 }
 
 function mission_reset()
 {
     //TODO: Load inputs to original state. (Reload previous json file loaded, or load new table)
+    load_missions(true);
 }
 
+function mission_post(data)
+{
+    fetch('http://localhost:6969/post_missions', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    })
+}
+
+function mission_get(LocalMissions)
+{
+    return fetch('http://localhost:6969/get_missions')
+    .then(response => {
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else
+        {
+            console.error("Error:", response.statusText);
+        }
+
+    }).then(data => {
+        console.log("Mission data:", data);
+
+        //Ensure we don't replace unsaved data. 
+        if(LocalMissions && JSON.stringify(data) === JSON.stringify(LocalMissions))
+        {
+            return LocalMissions;
+        }
+        else
+        {
+            return data;
+        }
+
+    }).catch(error => {
+        console.error("Error", error);
+        throw error
+    })
+}
