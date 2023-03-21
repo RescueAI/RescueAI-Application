@@ -10,82 +10,68 @@
         alert("Print Function Loaded");
     }
 
-    function addCommandLog(data)
-    {
-        let table = document.getElementById("command-log-table");
-        let rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        let msg = row.insertCell(0)
-        msg.className="alert-log"
-        msg.innerHTML= data.message;
-
-        row.insertCell(1).innerHTML= data.timestamp;
-        row.insertCell(2).innerHTML= data.localtime;
-    }
-
-    function move_command(command, message) {
-        // Send drone command.
-        let message_out = "User Action: " + message + ": ";
-        let status;
-
-        fetch(`http://localhost:6969/api/drone/move/${command}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json'
-            }
-        }).then(response => {
-            if (response.ok) {
-              console.log(`${command} command sent successfully`);
-              // Send command to command log history (pass or fail)
-              //fetch('/api/command-log', { method: 'POST', body: { command, status: 'pass' } });
-              status = "PASSED";
-            } else {
-              console.log(`Failed to send ${command} command`);
-              // Send command to command log history (pass or fail)
-              //fetch('/api/command-log', { method: 'POST', body: { command, status: 'fail' } });
-              status = "FAILED";
-            }
-
-            today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-            message_out += status
-
-            data = {message:message_out, timestamp:time, localtime:time}
-            addCommandLog(data);
-          });
-    }
-
     function move_forward() {
-        move_command('forward', 'Forward Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Move Forward Event Pressed";
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function move_backward() {
-        move_command('backward', 'Backward Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Move Backward Event Pressed";
+
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function move_left() {
-        move_command('left', 'Left Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Move Left Event Pressed";
+
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function move_right() {
-        move_command('right', 'Rigth Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Move Right Event Pressed";
+
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function ascend() {
-        move_command('up', 'Ascend Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Ascend Event Pressed";
+
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history element (pass or fail)
     }
-    
+
     function descend() {
-        move_command('down', 'Descend Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Descend Event Pressed";
+
+        //TODO: Send drone command.
+
+        
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function rot_left() {
-        move_command('rotate-left', 'Rotate Left Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Turn Left Event Pressed";
+
+        //TODO: Send drone command.
+
+
+        //TODO: Send command to command log history (pass or fail)
     }
-    
+
     function rot_right() {
-        move_command('rotate-right', 'Rotate Right Command Issued');
+        document.getElementById(`last-keypress`).innerText = "[Navigation]: Turn Right Event Pressed";
     }
-    

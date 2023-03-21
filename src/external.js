@@ -14,12 +14,25 @@ function testAdd()
         "localtime":"01:102:3"
     }
 
-    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://cdn.discordapp.com/attachments/947693151387275285/1087516620261433414/image.png"});
+    addCommandLog({"message":"User Action - Forward", "timestamp":"01:20:10", "localtime":"01:32:23"});
+    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-shirt-white-background-person-gray-photo-placeholder-man-132818487.jpg"});
     addMission("");
     
 }
 
+function addCommandLog(data)
+{
+    let table = document.getElementById("command-log-table");
+    let rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
 
+    let msg = row.insertCell(0)
+    msg.className="alert-log"
+    msg.innerHTML= data.message;
+
+    row.insertCell(1).innerHTML= data.timestamp;
+    row.insertCell(2).innerHTML= data.localtime;
+}
 
 function addEventLog(data)
 {
@@ -90,16 +103,14 @@ function event_decline(row_id)
     document.getElementById("event-log-table").deleteRow(row.rowIndex);
 }
 
-function addMission(mission)
+function addMission(data)
 {
     let container = document.getElementById("m-select");
 
     let card = document.createElement('button');
     card.className = "mission-card";
-    card.id = `m-card-mission-${mission.id}`
-    card.innerHTML = `<h3>${mission.name}</h3>`//"Mission Card";
-    //card.onclick = select_mission(mission.id);
-
+    card.innerHTML = "Mission Card";
+    
     container.appendChild(card);
 }
 
