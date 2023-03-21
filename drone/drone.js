@@ -144,7 +144,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -170,7 +170,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -196,7 +196,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -222,7 +222,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -248,7 +248,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -274,7 +274,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -300,7 +300,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here
@@ -326,7 +326,7 @@ const server = http.createServer((req, res) => {
 	{
 		let body = '';
 		req.on('data', chunk => {
-			body += chunk.toString();
+			
 		})
 
 		//TODO: Forward move command here

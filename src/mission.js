@@ -13,12 +13,29 @@ const restraint = {
 let MISSION_LIST;
 let ACTIVE_MISSION;
 
+window.onload = function() {
+    load_missions(false);
+}
+
 //Call this function after certain actions to update UI
-async function load_missions()
+async function load_missions(reload)
 {
     try 
     {
-        let missions = await mission_get();
+        let missions;
+
+        if(!reload){
+            //Load missions only if MISSION_LIST is NULL
+            missions = await mission_get(MISSION_LIST);
+            //TODO: Replace missions in UI
+        }
+        else
+        {
+            //Load general saved missions regardless of content.
+            missions = await mission_get(null);
+            //TODO: Replace missions in UI
+        }
+
         for(let i = 0; i < missions.length; i++)
         {
             addMission(missions[i]);
@@ -29,8 +46,6 @@ async function load_missions()
     {
         console.error(`Error: ${error}`);
     }
-
-
 }
 
 /**
@@ -166,7 +181,7 @@ function mission_load_instruction(instruction)
     {
         console.log("valid instruction parameters for numbers are all set to 1. Please see mission_load_instruction function")
         console.error("Invalid instruction data attempted to be loaded in mission builder\n");
-        return NULL;
+        return null;
     }
     
     //TODO: Generate row element with inputs.
@@ -316,7 +331,7 @@ function mission_save()
 function mission_reset()
 {
     //TODO: Load inputs to original state. (Reload previous json file loaded, or load new table)
-    load_missions();
+    load_missions(true);
 }
 
 function mission_post(data)
@@ -341,7 +356,7 @@ function mission_post(data)
     })
 }
 
-function mission_get()
+function mission_get(LocalMissions)
 {
     return fetch('http://localhost:6969/get_missions')
     .then(response => {
@@ -356,7 +371,17 @@ function mission_get()
 
     }).then(data => {
         console.log("Mission data:", data);
-        return data;
+
+        //Ensure we don't replace unsaved data. 
+        if(LocalMissions && JSON.stringify(data) === JSON.stringify(LocalMissions))
+        {
+            return LocalMissions;
+        }
+        else
+        {
+            return data;
+        }
+
     }).catch(error => {
         console.error("Error", error);
         throw error

@@ -38,12 +38,12 @@
             if (response.ok) {
               console.log(`${command} command sent successfully`);
               // Send command to command log history (pass or fail)
-              fetch('/api/command-log', { method: 'POST', body: { command, status: 'pass' } });
+              //fetch('/api/command-log', { method: 'POST', body: { command, status: 'pass' } });
               status = "PASSED";
             } else {
               console.log(`Failed to send ${command} command`);
               // Send command to command log history (pass or fail)
-              fetch('/api/command-log', { method: 'POST', body: { command, status: 'fail' } });
+              //fetch('/api/command-log', { method: 'POST', body: { command, status: 'fail' } });
               status = "FAILED";
             }
 
