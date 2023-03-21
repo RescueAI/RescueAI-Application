@@ -1,0 +1,142 @@
+/* CSS File for general UI components */
+
+.primary-btn {
+	background-color: var(--btn-primary);
+	color: var(--btn-primary-text);
+	font-weight: 200;
+	font-style: normal;
+	text-decoration: none;
+	padding: 14px 15px;
+	border: 0px solid #000;
+	border-radius: 5px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: all 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.primary-btn span {
+	margin-right: 15px;
+	display: block;
+	width: 29px;
+	height: 29px;
+}
+.primary-btn:hover {
+	background-color: var(--btn-primary-hover);
+}
+.primary-btn:active {
+	background-color: var(--btn-primary-active);
+}
+
+.btn-accept {
+	background-color: var(--btn-accept);
+}
+
+.btn-decline {
+	background-color: var(--btn-decline);
+}
+
+.btn-card {
+	background-color: var(--btn-decline);
+}
+
+.m-1 {
+	margin: 1px;
+}
+
+.w-full {
+	width: 100%;
+}
+
+.r-inherit {
+	border-radius: inherit;
+}
+
+.p-5 {
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+
+.noselect {
+	user-select: none;
+}
+
+.dialog {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	height: 100%;
+	width: 100%;
+
+	background-color: var(--dialog-content-bg);
+	border-radius: 5px;
+}
+
+.dialog .dialog-header {
+	display: flex;
+	flex-direction: row;
+
+	width: 100%;
+	margin: 0;
+	padding: 3px 3px 3px 15px;
+	box-sizing: border-box;
+
+	border-top-right-radius: inherit;
+	border-top-left-radius: inherit;
+
+	background-color: var(--dialog-header-bg);
+}
+
+.dialog .dialog-content {
+	display: flex;
+	justify-content: center;
+	
+	width: 100%;
+	margin: 0;
+
+	border-bottom-right-radius: inherit;
+	border-bottom-left-radius: inherit;
+
+	flex-grow: 4;
+	overflow-y: auto;
+}
+
+
+.alert-table {
+	width: 100%;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	font-size: 12px;
+	height: min-content;
+}
+
+.alert-table tr {
+	line-height: 30px;
+	text-align: center;
+}
+
+.alert-table .alert-log {
+	text-align: start;
+	padding-left: 20px;
+	box-sizing: border-box;
+}
+
+.alert-table th {
+	background-color: var(--dialog-header-bg);
+	font-weight: 200;
+	position: sticky;
+	top:0;
+
+	white-space: nowrap;
+}
+
+.alert-table td {
+	background-color: var(--dialog-item-bg);
+	border: solid;
+	border-color: var(--dialog-content-bg);
+	border-width: 1px 0;
+}
+
+

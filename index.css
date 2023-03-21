@@ -1,0 +1,121 @@
+@import url("./src/css/control.css");
+@import url("./src/css/mission.css");
+@import url("./src/css/event.css");
+@import url("./src/css/video.css");
+@import url("./src/css/general.css");
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+	background-color: #434343;
+}
+
+:root {
+	--btn-primary-text: #fff;
+	--btn-primary: #445360;
+	--btn-primary-hover: #5a6e7f;
+	--btn-primary-active: #2c363f;
+
+    /*scroll bar colors*/
+    --scrollbar-track:#3f4040;
+    --scrollbar-thumb:#8e8e8e;
+    --scrollbar-thumb-hover:#626263;
+
+	/*keyboard button colors*/
+	--btn-kb-text: #fff;
+	--btn-kb: #595959;
+	--btn-kb-hover: rgb(53, 53, 53);
+	--btn-kb-active: #2c363f;
+	--btn-kb-border: lightgray;
+	--btn-accept: #03BE00;
+	--btn-decline: #FF4141;
+
+	/*Dialog colors*/
+	--dialog-header-bg: #666666;
+	--dialog-content-bg: #737373;
+	--dialog-item-bg: #595959;
+
+	/*Mission Cards*/
+	--btn-card:#515659;
+	--btn-card-hover:#6f7376;
+	--btn-card-active:#343739;
+
+
+}
+
+.app-layout {
+	display: grid;
+	grid-template-columns: [line1] 50% [line2] 50%;
+	grid-template-rows: [row1-start] 50% [row2-start] 50%;
+	width: 100%;
+	height: 100%;
+}
+
+.app-module-wrapper {
+	box-sizing: border-box;
+	padding: 0.5%;
+	border: 0.1px solid rgb(53, 53, 53);
+}
+
+.app-mission-wrapper {
+	display: flex;
+	/*border: 1px solid purple;*/
+	height: 100%;
+}
+
+.app-video-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*border: 1px solid red;*/
+	height: 100%;
+}
+
+.app-event-wrapper {
+	display: flex;
+	flex-direction: column;
+	/*border: 1px solid blue;*/
+	height: 100%;
+}
+
+.app-control-wrapper {
+	display: flex;
+	flex-direction: column;
+	/*border: 1px solid yellow;*/
+	height: 100%;
+}
+
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track); 
+	border-top-right-radius: inherit;
+	border-bottom-right-radius:  inherit;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+	border-top-right-radius: inherit;
+	border-bottom-right-radius: inherit;
+}
+
+.kb-btn:hover {
+    background-color: rgb(53, 53, 53);
+}
+#source-image {
+    display: none;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
