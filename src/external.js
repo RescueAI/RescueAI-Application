@@ -1,6 +1,6 @@
-document.getElementById("kb-w").onclick = () => {
-    testAdd();
-};
+//document.getElementById("kb-w").onclick = () => {
+    //testAdd();
+//};
 
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
