@@ -1,6 +1,6 @@
 
 const restraint = {
-    commands: ["forward","backward", "left", "right", "ascend", "descend", "rotate-left", "rotate-right"], 
+    commands: ["forward","backward", "left", "right", "ascend", "descend", "rotate-left", "rotate-right", "hover"], 
     s_min: 0, 
     s_max: 20,
     s_default:1, 
@@ -10,10 +10,117 @@ const restraint = {
 };
 //TODO load missions if they exist,
 
+let MISSION_LIST;
+let ACTIVE_MISSION;
+
+window.onload = function() {
+    load_missions(false);
+}
+
+function addMission(mission)
+{
+    let container = document.getElementById("m-select");
+
+    let card = document.createElement('button');
+    card.className = "mission-card";
+    card.id = `m-card-mission-${mission.id}`
+    card.innerHTML = `<h3>${mission.name}</h3>`//"Mission Card";
+    card.onclick = () => {select_mission(mission.id)};
+
+    container.appendChild(card);
+}
+
+//Call this function after certain actions to update UI
+async function load_missions(reload)
+{
+    try 
+    {
+        let missions;
+
+        if(!reload){
+            //Load missions only if MISSION_LIST is NULL
+            missions = await mission_get(MISSION_LIST);
+            //TODO: Replace missions in UI
+        }
+        else
+        {
+            //Load general saved missions regardless of content.
+            missions = await mission_get(null);
+            //TODO: Replace missions in UI
+        }
+
+        MISSION_LIST = missions;
+
+        for(let i = 0; i < missions.length; i++)
+        {
+            addMission(missions[i]);
+        }
+    }
+    catch (error)
+    {
+        console.error(`Error: ${error}`);
+    }
+}
+
+/**
+ * Function to be attached to mission cards onclick event 
+ * at time of card generation in addMission(mission)
+ * @param {*} id 
+ */
+function select_mission(id)
+{
+    for(let i = 0; i < MISSION_LIST.length; i++)
+    {
+        if(MISSION_LIST[i].id == id)
+        {
+            load_mission_context(MISSION_LIST[i]);
+        }
+    }
+}
+
+function is_active(mission)
+{
+    return (mission?.id === ACTIVE_MISSION?.id)
+}
+
+function load_mission_context(mission)
+{
+    console.log(JSON.stringify(mission))
+    if(!is_active(mission))
+    {
+        ACTIVE_MISSION = mission;
+
+        console.log("ACTIVE MISSION SET TO:" + JSON.stringify(ACTIVE_MISSION));
+    
+        mission_clear_instructions();
+        let instrucs = mission.instructions;
+    
+        for(i = 0; i<instrucs.length; i++)
+        {
+            mission_load_instruction(instrucs[i])
+        }
+    }
+}
+
+function mission_clear_instructions()
+{
+    let table = document.getElementById('mission-instruction-table');
+    let rowCount = table.rows.length; //This'll be the ID difference for everything.
+
+    for(i=1; i<rowCount; i++)
+    {
+        table.deleteRow(rowCount-1)
+        rowCount = table.rows.length
+    }
+}
+
 function mission_new()
 {
     //TODO: Add mission card
     config = document.getElementById('mission-instructions');
+
+    mission_clear_instructions();
+
 
 }
 
@@ -98,6 +205,7 @@ function mission_remove_instruction()
         console.error("Mission builder is unable to delete any more instructions\n");
     }
 }
+
 
 //Call to load an instruction to the mission builder from a preexisting instruction
 //i.e from json.
@@ -240,19 +348,19 @@ function mission_save()
 
     //TODO: Check if mission already saved -> do nothing
 
+    //TODO: Compare with local mission set.
+
+
+
+
     //TODO: Else check if mission to be saved already exists on file -> update file.
 
     //TODO: Else make a new file.
 
-    let data = getInstructionList();
-    let json = JSON.stringify(data);
 
-    //fs.writeFile("./bin/data.json", json, (err) =>
-    //{
-    //    if(err) throw err;
-    //    console.log('Data written to file');
-    //});
-
+    let missions = mission_get(MISSION_LIST);
+    mission_post(missions);
+    console.log(JSON.stringify(missions));
 }
 
 function mission_reset()
@@ -260,3 +368,101 @@ function mission_reset()
     //TODO: Load inputs to original state. (Reload previous json file loaded, or load new table)
 }
 
+function mission_post(data)
+{
+    fetch('http://localhost:6969/post_missions', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    })
+}
+
+function mission_get(LocalMissions)
+{
+    return fetch('http://localhost:6969/get_missions')
+    .then(response => {
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else
+        {
+            console.error("Error:", response.statusText);
+        }
+
+    }).then(data => {
+        console.log("Mission data:", data);
+
+        //Ensure we don't replace unsaved data. 
+        if(LocalMissions && JSON.stringify(data) === JSON.stringify(LocalMissions))
+        {
+            return LocalMissions;
+        }
+        else
+        {
+            return data;
+        }
+
+    }).catch(error => {
+        console.error("Error", error);
+        throw error
+    })
+}
+
+
+function mission_start(id)
+{
+    fetch(`http://localhost:6969/api/drone/${id}`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    })
+}
+
+function mission_end()
+{
+    fetch(`http://localhost:6969/api/drone/end`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    })
+}
