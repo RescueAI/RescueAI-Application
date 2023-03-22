@@ -450,7 +450,7 @@ function mission_start()
     }
 }
 
-function mission_end()
+function mission_stop()
 {
     const options = {
         method: 'POST',
@@ -458,7 +458,7 @@ function mission_end()
           'Content-Type': 'application/json'
         }
       };
-      fetch(`http://localhost:6969/api/drone/end`, options)
+      fetch(`http://localhost:6969/api/drone/stop`, options)
         .then(response => {
           if (response.ok) {
             console.log('Mission ended successfully');

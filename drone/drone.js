@@ -128,7 +128,6 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
-		return;
 	}
 
 	//Read current missions
@@ -147,7 +146,6 @@ const server = http.createServer((req, res) => {
 				res.end(data);
 			}
 		});
-		return;
 	}
 
 	if(req.url === "/api/drone/move/forward" && req.method === 'POST') 
@@ -203,7 +201,6 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
-		return;
 	}
 
 	if(req.url === "/api/drone/move/left" && req.method === 'POST') 
@@ -231,7 +228,6 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
-		return;
 	}
 
 	if(req.url === "/api/drone/move/right" && req.method === 'POST') 
