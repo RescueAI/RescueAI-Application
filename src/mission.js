@@ -423,46 +423,48 @@ function mission_get(LocalMissions)
 }
 
 
-function mission_start(id)
+function mission_start()
 {
-    fetch(`http://localhost:6969/api/drone/${id}`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    }).then(response => {
-        if(response.ok) 
-        {
-            console.log("Mission data saved successfully")
-        }
-        else 
-        {
-            console.log("Error:", response.statusText);
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-    })
+    let id = ACTIVE_MISSION?.id;
+    if(id)
+    {
+        const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+          fetch(`http://localhost:6969/api/drone/start/${id}`, options)
+            .then(response => {
+              if (response.ok) {
+                console.log('Mission started successfully');
+              } else {
+                console.error(`Error starting mission: ${response.statusText}`);
+              }
+            })
+            .catch(error => console.error(`Error starting mission: ${error.message}`));
+    }
+    else
+    {
+        console.error("No mission ID found");
+    }
 }
 
 function mission_end()
 {
-    fetch(`http://localhost:6969/api/drone/end`, {
+    const options = {
         method: 'POST',
-        body: JSON.stringify(data),
         headers: {
-            'Content-Type':'application/json'
+          'Content-Type': 'application/json'
         }
-    }).then(response => {
-        if(response.ok) 
-        {
-            console.log("Mission data saved successfully")
-        }
-        else 
-        {
-            console.log("Error:", response.statusText);
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-    })
-}
+      };
+      fetch(`http://localhost:6969/api/drone/end`, options)
+        .then(response => {
+          if (response.ok) {
+            console.log('Mission ended successfully');
+          } else {
+            console.error(`Error ending mission: ${response.statusText}`);
+          }
+        })
+        .catch(error => console.error(`Error ending mission: ${error.message}`));
+    }

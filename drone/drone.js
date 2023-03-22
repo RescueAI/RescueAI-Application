@@ -128,6 +128,7 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+		return;
 	}
 
 	//Read current missions
@@ -146,6 +147,7 @@ const server = http.createServer((req, res) => {
 				res.end(data);
 			}
 		});
+		return;
 	}
 
 	if(req.url === "/api/drone/move/forward" && req.method === 'POST') 
@@ -157,6 +159,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("forward");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -172,6 +175,7 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+
 	}
 
 	if(req.url === "/api/drone/move/backward" && req.method === 'POST') 
@@ -183,6 +187,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("backward");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -198,6 +203,7 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+		return;
 	}
 
 	if(req.url === "/api/drone/move/left" && req.method === 'POST') 
@@ -209,6 +215,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("left");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -224,6 +231,7 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+		return;
 	}
 
 	if(req.url === "/api/drone/move/right" && req.method === 'POST') 
@@ -235,6 +243,8 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+
+			console.log("right");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -261,6 +271,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("up");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -287,6 +298,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("down");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -313,6 +325,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("rotate-left");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -339,6 +352,7 @@ const server = http.createServer((req, res) => {
 
 		//TODO: Forward move command here
 		req.on('end', () => {
+			console.log("rotate-right");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
@@ -356,6 +370,57 @@ const server = http.createServer((req, res) => {
 		});
 	}
 
+	if (req.url.startsWith('/api/drone/start/') && req.method === 'POST') {
+
+		const missionId = parseInt(req.url.slice('/api/drone/start/'.length));
+		// TODO: Implement logic for starting drone mission with the provided mission ID
+		// Example:
+		//stopCurrentMission()
+		let status; // = startDroneMission(missionId);
+		console.log(missionId);
+
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		req.on('end', () => {
+
+		  if(status == 200)
+		  {
+			res.statusCode = 200;
+			res.end('Drone mission started');
+		  }
+		  else
+		  {
+			res.statusCode = 500;
+			res.end('Drone mission started');
+		  }
+
+		});
+	}
+
+	if (req.url === '/api/drone/stop' && req.method === 'POST') {
+		// TODO: Implement logic for stopping drone mission
+		// Example: stopDroneMission();
+		let status; //=stopDroneMission(); ///pass by reference a status if possible
+
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+		
+		if(status == 200)
+		{
+		  res.statusCode = 200;
+		  res.end('Drone mission stopped');
+		}
+		else
+		{
+		  res.statusCode = 500;
+		  res.end('Drone mission could not be stopped');
+		}
+	}
 });
 
 server.listen(6969, () => {
