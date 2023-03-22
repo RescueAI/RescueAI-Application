@@ -32,6 +32,11 @@ let preBoxedImg;
 // const pngStream = client.getPngStream();
 let lastPng;
 
+
+let recentEvent = {
+	image: undefined,
+	numberOfDetections: 0
+};
 // pngStream.on('data', buffer => {
 // 	lastPng = buffer;
 // })
@@ -71,6 +76,7 @@ const server = http.createServer((req, res) => {
 	if (req.url === "/predict_img") {
 		lastPng = fs.readFileSync('./src/known.jpg');
 		getPreBoxImage(lastPng);
+		if (res)
 		res.end(preBoxedImg);
 	}
 
@@ -80,6 +86,16 @@ const server = http.createServer((req, res) => {
 			return;
 		}
 		res.end(JSON.stringify(boxes?.boxes));
+	}
+
+	if (req.url === "/event") {
+		if (recentEvent.image === undefined) {
+			res.writeHead(500);
+			res.end("No events to return");
+			return;
+		}
+		res.writeHead(200);
+		res.end(JSON.stringify(recentEvent));
 	}
 
 	if (req.url === "/light") {
@@ -112,7 +128,14 @@ async function detect(image) {
 		formData.append('image', fs.createReadStream('./src/known.jpg'));
 		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
 		boxes = response.data;
-
+		if (boxes?.boxes) {
+			if (boxes?.boxes.length != recentEvent.numberOfDetections) {
+				recentEvent = {
+					image: preBoxedImg,
+					numberOfDetections: boxes?.boxes
+				}
+			}
+		}
 		// const req = http.request(mlreqOptions, res => {
 		// 	res.on('data', data => {
 		// 		boxes = data;
