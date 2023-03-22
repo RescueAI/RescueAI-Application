@@ -9,7 +9,6 @@
     function print() {
         alert("Print Function Loaded");
     }
-
     function addCommandLog(data)
     {
         let table = document.getElementById("command-log-table");

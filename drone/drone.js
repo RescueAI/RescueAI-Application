@@ -2,8 +2,6 @@
 const http = require('http')
 const url = require('url')
 const arDone = require('ar-drone')
-const tf = require('@tensorflow/tfjs-node')
-const tfConverter = require("@tensorflow/tfjs-converter")
 const cv = require('../opencv');
 const fs = require('fs');
 const jimp = require('jimp');
@@ -11,6 +9,7 @@ const NodeWebcam = require("node-webcam");
 const client = arDone.createClient();
 const axios = require('axios')
 const FormData = require("form-data")
+const moment = require("moment");
 
 const mlreqOptions = {
 	hostname: "127.0.0.1",
@@ -32,6 +31,12 @@ let preBoxedImg;
 // const pngStream = client.getPngStream();
 let lastPng;
 
+
+let recentEvent = {
+	image: undefined,
+	numberOfDetections: 0,
+	timeStamp: moment()
+};
 // pngStream.on('data', buffer => {
 // 	lastPng = buffer;
 // })
@@ -71,6 +76,7 @@ const server = http.createServer((req, res) => {
 	if (req.url === "/predict_img") {
 		lastPng = fs.readFileSync('./src/known.jpg');
 		getPreBoxImage(lastPng);
+		if (res)
 		res.end(preBoxedImg);
 	}
 
@@ -82,13 +88,22 @@ const server = http.createServer((req, res) => {
 		res.end(JSON.stringify(boxes?.boxes));
 	}
 
+	if (req.url === "/event") {
+		if (recentEvent.image === undefined) {
+			res.writeHead(500);
+			res.end("No events to return");
+			return;
+		}
+		res.writeHead(200);
+		res.end(JSON.stringify(recentEvent));
+	}
+
 	if (req.url === "/light") {
 		client.animateLeds('red', 20, 5);
 		res.end("lights on");
 	}
 
 	//console.log(req.url);
-
 	//Update missions with new mission set.
 	if(req.url === "/post_missions" && req.method === 'POST') 
 	{
@@ -347,10 +362,6 @@ server.listen(6969, () => {
 	console.log("server running on port 6969");
 });
 
-async function initializeTf() {
-	model = await tf.node.loadSavedModel("./models/saved_modelsingle/")
-}
-
 async function detect(image) {
 	const buf = fs.readFileSync('./src/known.jpg')
 	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
@@ -364,7 +375,19 @@ async function detect(image) {
 		formData.append('image', fs.createReadStream('./src/known.jpg'));
 		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
 		boxes = response.data;
-
+		if (boxes?.boxes) {
+			const currentTime = moment();
+			const difference = currentTime.diff(recentEvent.timeStamp);
+			
+			if (Number(difference.seconds()) > 20) {
+				recentEvent = {
+					image: preBoxedImg,
+					numberOfDetections: boxes?.boxes,
+					timeStamp: currentTime
+				}
+			}
+			recentEvent.timeStamp = currentTime;
+		}
 		// const req = http.request(mlreqOptions, res => {
 		// 	res.on('data', data => {
 		// 		boxes = data;
@@ -424,8 +447,5 @@ async function webCamCapture() {
 		lastPng = data;
 	});
 }
-
-
-
 
 //export default drone;

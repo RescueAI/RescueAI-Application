@@ -19,7 +19,19 @@ function testAdd()
     
 }
 
+function addCommandLog(data)
+{
+    let table = document.getElementById("command-log-table");
+    let rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
 
+    let msg = row.insertCell(0)
+    msg.className="alert-log"
+    msg.innerHTML= data.message;
+
+    row.insertCell(1).innerHTML= data.timestamp;
+    row.insertCell(2).innerHTML= data.localtime;
+}
 
 function addEventLog(data)
 {

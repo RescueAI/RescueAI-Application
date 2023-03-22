@@ -126,9 +126,6 @@ function mission_new()
 
 function mission_edit()
 {
-    //TODO: Get selected mission's id.
-    console.log(MISSION_LIST[0])
-    //TODO: Find mission id in the mission set
 
 }
 
@@ -222,9 +219,9 @@ function mission_load_instruction(instruction)
 
     if(!mission_validate_instruction(instruction))
     {
-        console.log("valid instruction parameters for numbers are all set to 1. Please see mission_load_instruction function")
+        console.log("valid instruction parameters for numbers are all set to 1. Please mission_load_instruction function")
         console.error("Invalid instruction data attempted to be loaded in mission builder\n");
-        return null;
+        return NULL;
     }
     
     //TODO: Generate row element with inputs.
@@ -345,10 +342,9 @@ function getInstructionList()
 
 
 
-
 function mission_save()
 {
-
+    //let fs = require("fs");
 
     //TODO: Check if mission already saved -> do nothing
 
@@ -370,7 +366,6 @@ function mission_save()
 function mission_reset()
 {
     //TODO: Load inputs to original state. (Reload previous json file loaded, or load new table)
-    load_missions(true);
 }
 
 function mission_post(data)
