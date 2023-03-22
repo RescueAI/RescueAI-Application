@@ -1,6 +1,6 @@
 
 const restraint = {
-    commands: ["forward","backward", "left", "right", "ascend", "descend", "rotate-left", "rotate-right"], 
+    commands: ["forward","backward", "left", "right", "ascend", "descend", "rotate-left", "rotate-right", "hover"], 
     s_min: 0, 
     s_max: 20,
     s_default:1, 
@@ -15,6 +15,19 @@ let ACTIVE_MISSION;
 
 window.onload = function() {
     load_missions(false);
+}
+
+function addMission(mission)
+{
+    let container = document.getElementById("m-select");
+
+    let card = document.createElement('button');
+    card.className = "mission-card";
+    card.id = `m-card-mission-${mission.id}`
+    card.innerHTML = `<h3>${mission.name}</h3>`//"Mission Card";
+    card.onclick = () => {select_mission(mission.id)};
+
+    container.appendChild(card);
 }
 
 //Call this function after certain actions to update UI
@@ -36,11 +49,12 @@ async function load_missions(reload)
             //TODO: Replace missions in UI
         }
 
+        MISSION_LIST = missions;
+
         for(let i = 0; i < missions.length; i++)
         {
             addMission(missions[i]);
         }
-        MISSION_LIST = missions;
     }
     catch (error)
     {
@@ -57,28 +71,56 @@ function select_mission(id)
 {
     for(let i = 0; i < MISSION_LIST.length; i++)
     {
-        if(MISSION_LIST[i].id === id)
+        if(MISSION_LIST[i].id == id)
         {
             load_mission_context(MISSION_LIST[i]);
         }
     }
 }
 
-function load_mission_context(mission)
+function is_active(mission)
 {
-    ACTIVE_MISSION = mission;
-
-    //TODO: Load mission context into mission builder
-
+    return (mission?.id === ACTIVE_MISSION?.id)
 }
 
+function load_mission_context(mission)
+{
+    console.log(JSON.stringify(mission))
+    if(!is_active(mission))
+    {
+        ACTIVE_MISSION = mission;
 
+        console.log("ACTIVE MISSION SET TO:" + JSON.stringify(ACTIVE_MISSION));
+    
+        mission_clear_instructions();
+        let instrucs = mission.instructions;
+    
+        for(i = 0; i<instrucs.length; i++)
+        {
+            mission_load_instruction(instrucs[i])
+        }
+    }
+}
 
+function mission_clear_instructions()
+{
+    let table = document.getElementById('mission-instruction-table');
+    let rowCount = table.rows.length; //This'll be the ID difference for everything.
+
+    for(i=1; i<rowCount; i++)
+    {
+        table.deleteRow(rowCount-1)
+        rowCount = table.rows.length
+    }
+}
 
 function mission_new()
 {
     //TODO: Add mission card
     config = document.getElementById('mission-instructions');
+
+    mission_clear_instructions();
+
 
 }
 
@@ -166,6 +208,7 @@ function mission_remove_instruction()
         console.error("Mission builder is unable to delete any more instructions\n");
     }
 }
+
 
 //Call to load an instruction to the mission builder from a preexisting instruction
 //i.e from json.
@@ -308,7 +351,6 @@ function mission_save()
 
 
     //TODO: Check if mission already saved -> do nothing
-    let old = mission_get();
 
     //TODO: Compare with local mission set.
 
@@ -319,13 +361,10 @@ function mission_save()
 
     //TODO: Else make a new file.
 
-    let data = getInstructionList();
 
-
-
-    let missions = mission_get();
+    let missions = mission_get(MISSION_LIST);
     mission_post(missions);
-    console.log(missions);
+    console.log(JSON.stringify(missions));
 }
 
 function mission_reset()
@@ -385,5 +424,50 @@ function mission_get(LocalMissions)
     }).catch(error => {
         console.error("Error", error);
         throw error
+    })
+}
+
+
+function mission_start(id)
+{
+    fetch(`http://localhost:6969/api/drone/${id}`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    })
+}
+
+function mission_end()
+{
+    fetch(`http://localhost:6969/api/drone/end`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }).then(response => {
+        if(response.ok) 
+        {
+            console.log("Mission data saved successfully")
+        }
+        else 
+        {
+            console.log("Error:", response.statusText);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
     })
 }
