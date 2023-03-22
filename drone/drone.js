@@ -377,7 +377,7 @@ const server = http.createServer((req, res) => {
 		// Example:
 		//stopCurrentMission()
 		let status; // = startDroneMission(missionId);
-		console.log(missionId);
+		console.log("Starting mission with ID:", missionId);
 
 		let body = '';
 		req.on('data', chunk => {
@@ -390,11 +390,13 @@ const server = http.createServer((req, res) => {
 		  {
 			res.statusCode = 200;
 			res.end('Drone mission started');
+			console.log("Drone mission with ID:"+missionID+" started");
 		  }
 		  else
 		  {
 			res.statusCode = 500;
-			res.end('Drone mission started');
+			res.end('Drone mission failed to start');
+			console.error("Drone mission failed to start");
 		  }
 
 		});
@@ -410,10 +412,13 @@ const server = http.createServer((req, res) => {
 			
 		})
 		
+		console.log("Stopping mission");
+
 		if(status == 200)
 		{
 		  res.statusCode = 200;
 		  res.end('Drone mission stopped');
+		  console.log("Drone mission was stopped");
 		}
 		else
 		{
