@@ -32,6 +32,7 @@
     "form-data": "^4.0.0",
     "fs": "0.0.1-security",
     "jimp": "^0.22.7",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.9",
     "node-pre-gyp": "^0.17.0",
     "node-red-contrib-tfjs-coco-ssd": "^1.0.5",

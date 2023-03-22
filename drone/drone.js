@@ -11,6 +11,7 @@ const NodeWebcam = require("node-webcam");
 const client = arDone.createClient();
 const axios = require('axios')
 const FormData = require("form-data")
+const moment = require("moment");
 
 const mlreqOptions = {
 	hostname: "127.0.0.1",
@@ -35,7 +36,8 @@ let lastPng;
 
 let recentEvent = {
 	image: undefined,
-	numberOfDetections: 0
+	numberOfDetections: 0,
+	timeStamp: moment()
 };
 // pngStream.on('data', buffer => {
 // 	lastPng = buffer;
@@ -129,12 +131,17 @@ async function detect(image) {
 		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
 		boxes = response.data;
 		if (boxes?.boxes) {
-			if (boxes?.boxes.length != recentEvent.numberOfDetections) {
+			const currentTime = moment();
+			const difference = currentTime.diff(recentEvent.timeStamp);
+			
+			if (Number(difference.seconds() > 20)) {
 				recentEvent = {
 					image: preBoxedImg,
-					numberOfDetections: boxes?.boxes
+					numberOfDetections: boxes?.boxes,
+					timeStamp: currentTime
 				}
 			}
+			recentEvent.timeStamp = currentTime;
 		}
 		// const req = http.request(mlreqOptions, res => {
 		// 	res.on('data', data => {
