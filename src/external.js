@@ -1,4 +1,4 @@
-document.getElementById("kb-w").onclick = () => {
+document.getElementById("kb-t").onclick = () => {
     testAdd();
 };
 

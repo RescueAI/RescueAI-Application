@@ -56,6 +56,21 @@
           });
     }
 
+    function hover() {
+        move_command('hover', 'Hover Command Issued');
+        console.log("Hover called")
+    }
+
+    function land() {
+        move_command('land', 'Land Command Issued');
+        console.log("Land called")
+    }
+
+    function takeoff() {
+        move_command('takeoff', 'Takeoff Command Issued');
+        console.log("Takeoff called")
+    }
+
     function move_forward() {
         move_command('forward', 'Forward Command Issued');
     }

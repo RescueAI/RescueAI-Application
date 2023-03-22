@@ -47,6 +47,7 @@ function KeyUp(event) {
     if(button !== null)
     {
         button.style = 'none'
+        hover()
         //TODO: Stop button held action. Will need something like KeyStop above.
     }
 
