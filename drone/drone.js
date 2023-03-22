@@ -2,8 +2,6 @@
 const http = require('http')
 const url = require('url')
 const arDone = require('ar-drone')
-const tf = require('@tensorflow/tfjs-node')
-const tfConverter = require("@tensorflow/tfjs-converter")
 const cv = require('../opencv');
 const fs = require('fs');
 const jimp = require('jimp');
@@ -112,10 +110,6 @@ const server = http.createServer((req, res) => {
 server.listen(6969, () => {
 	console.log("server running on port 6969");
 });
-
-async function initializeTf() {
-	model = await tf.node.loadSavedModel("./models/saved_modelsingle/")
-}
 
 async function detect(image) {
 	const buf = fs.readFileSync('./src/known.jpg')
