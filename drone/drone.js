@@ -134,7 +134,7 @@ async function detect(image) {
 			const currentTime = moment();
 			const difference = currentTime.diff(recentEvent.timeStamp);
 			
-			if (Number(difference.seconds() > 20)) {
+			if (Number(difference.seconds()) > 20) {
 				recentEvent = {
 					image: preBoxedImg,
 					numberOfDetections: boxes?.boxes,
