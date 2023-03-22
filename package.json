@@ -30,7 +30,6 @@
     "moment": "^2.29.4",
     "node-fetch": "^2.6.9",
     "node-pre-gyp": "^0.17.0",
-    "node-red-contrib-tfjs-coco-ssd": "^1.0.5",
     "node-webcam": "^0.8.1",
     "npm": "^3.10.10",
     "path": "^0.12.7"
