@@ -215,8 +215,12 @@ const server = http.createServer((req, res) => {
 		})
 
 		req.on('end', () => {
-			client.front(1);
-			console.log("Moving Forwards")
+			try{
+				client.front(1);
+				console.log("Moving Forwards")}
+				catch{
+					console.log("Cannot move forwards")
+				}
 		});
 	}
 

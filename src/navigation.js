@@ -23,18 +23,21 @@
         row.insertCell(2).innerHTML= data.localtime;
     }
 
-    function move_command(command, message) {
+    async function move_command(command, message) {
         // Send drone command.
         let message_out = "User Action: " + message + ": ";
         let status;
+        console.log("command request start: ", command);
+   
+        
+            const response = await fetch(`http://localhost:6969/api/drone/move/${command}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                }
+        })
 
-        fetch(`http://localhost:6969/api/drone/move/${command}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json'
-            }
-        }).then(response => {
-            if (response.ok) {
+        if (response.ok) {
               console.log(`${command} command sent successfully`);
               // Send command to command log history (pass or fail)
               //fetch('/api/command-log', { method: 'POST', body: { command, status: 'pass' } });
@@ -53,7 +56,7 @@
 
             data = {message:message_out, timestamp:time, localtime:time}
             addCommandLog(data);
-          });
+            console.log("command request end: ", command)
     }
 
     function hover() {

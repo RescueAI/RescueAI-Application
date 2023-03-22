@@ -2,6 +2,10 @@ document.getElementById("kb-t").onclick = () => {
     testAdd();
 };
 
+document.getElementById("kb-w").onclick = () => {
+    move_forward();
+};
+
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
 }
