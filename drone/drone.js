@@ -68,13 +68,23 @@ let recentEvent = {
 // 	console.log(err);
 // })
 
-function forwards() {
+function liftoff() {
 	client.takeoff();
+	console.log("Takeoff command sent");
+}
+
+function Land() {
+	client.land();
+	console.log("Land command sent");
+}
+
+function forwards() {
+	client.front();
 	console.log("Forwards command sent");
 }
 
 function backwards() {
-	client.land();
+	client.back();
 	console.log("Backwards command sent");
 }
 
@@ -213,6 +223,64 @@ const server = http.createServer((req, res) => {
 				res.end(data);
 			}
 		});
+	}
+
+	if(req.url === "/api/drone/move/takeoff" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: takeoff move command here
+		takeoff()
+		req.on('end', () => {
+			console.log("takeoff");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not takeoff");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully took flight");
+				}
+			});
+		});
+
+	}
+
+	if(req.url === "/api/drone/move/land" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: Forward move command here
+		Land()
+		req.on('end', () => {
+			console.log("land");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not land drone");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully landed");
+				}
+			});
+		});
+
 	}
 
 	if(req.url === "/api/drone/move/forward" && req.method === 'POST') 
