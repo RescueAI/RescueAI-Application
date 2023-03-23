@@ -435,12 +435,12 @@ const server = http.createServer((req, res) => {
 				{
 					console.error(err);
 					res.statusCode = 500;
-					res.end("Error: Could not move drone forward");
+					res.end("Error: Could not make drone hover");
 				}
 				else
 				{
 					res.statusCode = 200;
-					res.end("Drone successfully moved forward");
+					res.end("Drone successfully stopped moving");
 				}
 			});
 		});
