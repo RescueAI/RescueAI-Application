@@ -10,7 +10,7 @@ const restraint = {
 };
 //TODO load missions if they exist,
 
-let MISSION_LIST;
+let MISSION_LIST = [];
 let ACTIVE_MISSION;
 
 window.onload = function() {
@@ -28,6 +28,40 @@ function addMission(mission)
     card.onclick = () => {select_mission(mission.id)};
 
     container.appendChild(card);
+}
+
+function addNewMission() {
+    let container = document.getElementById("m-select");
+    let card = document.createElement('button');
+    let id = generateID();
+  
+    card.className = "mission-card";
+    card.id = `m-card-mission-${id}`;
+    card.innerHTML = `<h3>New Mission</h3>`; //"Mission Card";
+    card.onclick = () => { select_mission(id) };
+  
+    container.appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  
+    // Activates select_mission which will make it the active mission and bring up configuration context
+    card.click();
+  
+    return { id: id, name: "", instructions: [] };
+}
+
+function generateID()
+{
+    let maxID = 0;
+    for(i = 0; MISSION_LIST.length; i++)
+    {
+        let currID = MISSION_LIST[i];
+        if(currID>maxID)
+        {
+            maxID = currID;
+        }
+    }
+
+    return maxID + 1;
 }
 
 //Call this function after certain actions to update UI
@@ -71,9 +105,15 @@ function select_mission(id)
 {
     for(let i = 0; i < MISSION_LIST.length; i++)
     {
+        let card = document.getElementById(`m-card-mission-${MISSION_LIST[i].id}`);
         if(MISSION_LIST[i].id == id)
         {
+            card.style = "background-color: var(--btn-kb-active); border:none";
             load_mission_context(MISSION_LIST[i]);
+        }
+        else
+        {
+            card.style = 'none';
         }
     }
 }
@@ -109,18 +149,17 @@ function mission_clear_instructions()
 
     for(i=1; i<rowCount; i++)
     {
-        table.deleteRow(rowCount-1)
-        rowCount = table.rows.length
+        table.deleteRow(i)
     }
 }
 
 function mission_new()
 {
     //TODO: Add mission card
-    config = document.getElementById('mission-instructions');
 
     mission_clear_instructions();
-
+    let mission = addNewMission();
+    MISSION_LIST.push(mission);
 
 }
 
@@ -328,11 +367,11 @@ function getInstructionList()
     let table = document.getElementById('mission-instruction-table');
     let rowCount = table.rows.length; //This'll be the ID difference for everything.
     
-    let instruct_list = [rowCount-1]; //minus 1 to account for column header row.
+    let instruct_list = []; //minus 1 to account for column header row.
 
     for(i = 1; i< rowCount; i++)
     {
-        instruct_list[i] = getRowInstruction(i);
+        instruct_list.push(getRowInstruction(i));
     }
 
     console.log("Instuction List Object: " + JSON.stringify(instruct_list));
@@ -358,8 +397,7 @@ function mission_save()
     //TODO: Else make a new file.
 
 
-    let missions = mission_get(MISSION_LIST);
-    mission_post(missions);
+    mission_post(MISSION_LIST);
     console.log(JSON.stringify(missions));
 }
 
