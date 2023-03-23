@@ -25,10 +25,14 @@ const predictOptions = {
 	method: "GET"
 }
 
+
 let boxes;
+let isGettingBoxes = false;
 let preBoxedImg;
 
-// const pngStream = client.getPngStream();
+
+const USE_DRONE = true;
+const pngStream = client.getPngStream();
 let lastPng;
 
 let MISSION_START_TIME;
@@ -43,29 +47,29 @@ let recentEvent = {
 };
 
 //{"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":""}
-// pngStream.on('data', buffer => {
-// 	lastPng = buffer;
-// })
-// .on('error', err => {
-// 	console.log('png stream error');
-// 	console.log(err);
-// })
+
+pngStream.on('data', buffer => {
+	lastPng = buffer;
+})
+.on('error', err => {
+	console.log('png stream error');
+	console.log(err);
+})
 
 
 let model = undefined;
-//initializeTf();
 
 const server = http.createServer((req, res) => {
 	if(req.url === "/camera") {
 		
-		webCamCapture();
+		if (!USE_DRONE) webCamCapture();
 		if (lastPng) {
 			try {
 				//res.writeHead('200', {'Content-Type': 'image/png'});
 				
-				
+				if (!USE_DRONE) lastPng = fs.readFileSync('./src/known.jpg');
 				detect(lastPng);
-				lastPng = fs.readFileSync('./src/known.jpg');
+
 				const data = {image: lastPng, boxes: boxes};
 				const dataBuffer = Buffer.from(JSON.stringify(data));
 				res.end(lastPng);
@@ -436,16 +440,21 @@ server.listen(6969, () => {
 });
 
 async function detect(image) {
-	const buf = fs.readFileSync('./src/known.jpg')
+	let buf = image;
+	if (!USER_DRONE) buf = fs.readFileSync('./src/known.jpg')
 	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
-	if(image === undefined) return;
+
+	if(buf === undefined || isGettingBoxes) return;
 	try {
-		
+		isGettingBoxes = true;
 		const formData = new FormData();
 		const headers = {
 			...formData.getHeaders()
 		}
-		formData.append('image', fs.createReadStream('./src/known.jpg'));
+
+		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
+		else formData.append('image', buf);
+
 		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
 		boxes = response.data;
 		if (boxes?.boxes) {
@@ -488,6 +497,8 @@ async function detect(image) {
 		// }
 	} catch (e) {
 		console.log(e)
+	} finally {
+		isGettingBoxes = false;
 	}
 	
 }
