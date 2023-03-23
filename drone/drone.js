@@ -45,6 +45,50 @@ let recentEvent = {
 // 	console.log(err);
 // })
 
+function forwards() {
+	client.front(1);
+	console.log("Command sent");
+}
+
+function backwards() {
+	client.back(1);
+	console.log("Command sent");
+}
+
+function mvLeft() {
+	client.left(1);
+	console.log("Command sent");
+}
+
+function mvRight() {
+	client.right(1);
+	console.log("Command sent");
+}
+
+function rise() {
+	client.up(1);
+	console.log("Command sent");
+}
+
+function sink() {
+	client.down(1);
+	console.log("Command sent");
+}
+
+function rotateLeft() {
+	client.counterClockwise(1);
+	console.log("Command sent");
+}
+
+function rotateRight() {
+	client.clockwise(1);
+	console.log("Command sent");
+}
+
+function Hover() {
+	client.stop();
+	console.log("Command sent");
+}
 
 let model = undefined;
 //initializeTf();
@@ -156,6 +200,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		forwards()
 		req.on('end', () => {
 			console.log("forward");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -184,6 +229,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		backwards();
 		req.on('end', () => {
 			console.log("backward");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -211,6 +257,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		mvLeft();
 		req.on('end', () => {
 			console.log("left");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -238,6 +285,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		mvRight();
 		req.on('end', () => {
 
 			console.log("right");
@@ -266,6 +314,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rise();
 		req.on('end', () => {
 			console.log("up");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -293,6 +342,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		sink()
 		req.on('end', () => {
 			console.log("down");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -320,6 +370,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rotateLeft();
 		req.on('end', () => {
 			console.log("rotate-left");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -347,6 +398,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rotateRight();
 		req.on('end', () => {
 			console.log("rotate-right");
 			fs.writeFile('./data/commands.json', body, err => {
