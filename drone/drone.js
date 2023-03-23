@@ -428,7 +428,7 @@ const server = http.createServer((req, res) => {
 		//TODO: Forward move command here
 		Hover()
 		req.on('end', () => {
-			console.log("forward");
+			console.log("hover");
 			fs.writeFile('./data/commands.json', body, err => {
 
 				if(err) 
