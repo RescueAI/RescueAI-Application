@@ -2,6 +2,19 @@
     //testAdd();
 //};
 
+let LAST_EVENT;
+
+setInterval(() => {
+    console.log("Looking for events");
+    let event = get_event();
+
+    event ? ()=>{console.log(event); addEventLog(event)} : null;
+
+    LAST_EVENT = event;
+
+
+}, 10000)
+
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
 }
@@ -101,4 +114,36 @@ function event_decline(row_id)
     console.log(`Deleting Event: ${row_id}`);
     document.getElementById("event-log-table").deleteRow(row.rowIndex);
 }
+
+function get_event()
+{
+    return fetch('http://localhost:6969/event')
+    .then(response => {
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else
+        {
+            console.error("Error:", response.statusText);
+        }
+
+    }).then(data => {
+        //Ensure we don't replace unsaved data. 
+        if(LAST_EVENT == null || JSON.stringify(data) === JSON.stringify(LAST_EVENT))
+        {
+            return null;
+        }
+        else
+        {
+            console.log("Received event data:", data);
+            return data;
+        }
+    }).catch(error => {
+        console.error("Error", error);
+        throw error
+    })
+}
+
+
 

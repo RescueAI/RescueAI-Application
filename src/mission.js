@@ -10,7 +10,7 @@ const restraint = {
 };
 //TODO load missions if they exist,
 
-let MISSION_LIST;
+let MISSION_LIST = [];
 let ACTIVE_MISSION;
 
 window.onload = function() {
@@ -28,6 +28,42 @@ function addMission(mission)
     card.onclick = () => {select_mission(mission.id)};
 
     container.appendChild(card);
+}
+
+function addNewMission() {
+    let container = document.getElementById("m-select");
+    let card = document.createElement('button');
+    let id = generateID();
+  
+    card.className = "mission-card";
+    card.id = `m-card-mission-${id}`;
+    card.innerHTML = `<h3>New Mission</h3>`; //"Mission Card";
+    card.onclick = () => { select_mission(id) };
+  
+    container.appendChild(card);
+  
+    //let mission = { id: id, name: "", instructions: [] };
+
+
+    // Activates select_mission which will make it the active mission and bring up configuration context
+    //card.click();
+  
+    return { id: id, name: "", instructions: [] };
+}
+
+function generateID()
+{
+    let maxID = 0;
+    for(let i = 0; i < MISSION_LIST.length; i++)
+    {
+        let currID = MISSION_LIST[i].id;
+        if( currID > maxID)
+        {
+            maxID = currID;
+        }
+    }
+
+    return maxID+1;
 }
 
 //Call this function after certain actions to update UI
@@ -69,11 +105,22 @@ async function load_missions(reload)
  */
 function select_mission(id)
 {
+
     for(let i = 0; i < MISSION_LIST.length; i++)
     {
+        let card = document.getElementById(`m-card-mission-${MISSION_LIST[i].id}`);
+
         if(MISSION_LIST[i].id == id)
         {
+            card.style = "background-color: var(--btn-kb-active); border:none";
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             load_mission_context(MISSION_LIST[i]);
+            document.getElementById("mission-name").disabled = false; //Allow user to enter a name in field
+            //now that something is selected.
+        }
+        else
+        {
+            card.style = 'none';
         }
     }
 }
@@ -99,28 +146,37 @@ function load_mission_context(mission)
         {
             mission_load_instruction(instrucs[i])
         }
+
+        let input_name = document.getElementById("mission-name");
+        input_name.value = mission.name;
     }
 }
 
 function mission_clear_instructions()
 {
     let table = document.getElementById('mission-instruction-table');
-    let rowCount = table.rows.length; //This'll be the ID difference for everything.
+    let rowCount = table.rows.length;
 
-    for(i=1; i<rowCount; i++)
+    for(i=rowCount-1; i>0; i--)
     {
-        table.deleteRow(rowCount-1)
-        rowCount = table.rows.length
+        table.deleteRow(i);
     }
 }
 
 function mission_new()
 {
     //TODO: Add mission card
-    config = document.getElementById('mission-instructions');
+
 
     mission_clear_instructions();
 
+    let mission = addNewMission();
+
+    MISSION_LIST.push(mission);
+    let card = document.getElementById(`m-card-mission-${mission.id}`)
+    card.click();
+
+    console.log("ATTEMPT TO CLEAR");
 
 }
 
@@ -145,13 +201,11 @@ function mission_add_instruction()
     let row = table.insertRow();
     row.id = `msn-c-${rowCount}`;
 
-    //TODO: Set scroll position
-
-
     let c_cell = row.insertCell(0);     //Command_cell
     let select_c = document.createElement('select');
     select_c.name = "Select Command";
     select_c.id = `msn-c_cmd-${rowCount}`;
+    select_c.className = "primary-input"
 
     let options = restraint.commands;
 
@@ -173,6 +227,7 @@ function mission_add_instruction()
     input_s.max = restraint.s_max; //TODO: Fix this!
     input_s.value = restraint.s_default;
     input_s.name = "Speed";
+    input_s.className = "primary-input"
 
     console.log(input_s);
 
@@ -186,10 +241,13 @@ function mission_add_instruction()
     input_d.max = restraint.d_max; //TODO: Fix this!
     input_d.value = restraint.d_default;
     input_d.name = "Duration";
+    input_d.className = "primary-input"
 
     console.log(input_d);
 
     d_cell.appendChild(input_d);
+    
+    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 //Removes last instruction from the table.
@@ -233,6 +291,7 @@ function mission_load_instruction(instruction)
     select_c.required = true;
     select_c.name = "Select Command";
     select_c.id = `msn-c_cmd-${rowCount}`;
+    select_c.className = "primary-input"
    
     for(let i = 0; i < options.length; i++)
     {
@@ -255,6 +314,8 @@ function mission_load_instruction(instruction)
     input_s.max = restraint.s_max; //TODO: Fix this!
     input_s.value = instruction.speed;
     input_s.name = "Speed";
+    input_s.className = "primary-input"
+    
 
     s_cell.appendChild(input_s);
 
@@ -267,6 +328,7 @@ function mission_load_instruction(instruction)
     input_d.max = restraint.d_max; //TODO: Fix this!
     input_d.value = instruction.duration;
     input_d.name = "Duration";
+    input_d.className = "primary-input"
 
     d_cell.appendChild(input_d);
 }
@@ -328,11 +390,11 @@ function getInstructionList()
     let table = document.getElementById('mission-instruction-table');
     let rowCount = table.rows.length; //This'll be the ID difference for everything.
     
-    let instruct_list = [rowCount-1]; //minus 1 to account for column header row.
+    let instruct_list = []; //minus 1 to account for column header row.
 
     for(i = 1; i< rowCount; i++)
     {
-        instruct_list[i] = getRowInstruction(i);
+        instruct_list.push(getRowInstruction(i));
     }
 
     console.log("Instuction List Object: " + JSON.stringify(instruct_list));
@@ -340,27 +402,29 @@ function getInstructionList()
     return instruct_list;
 }
 
-
-
 function mission_save()
 {
-    //let fs = require("fs");
+    ACTIVE_MISSION.instructions = getInstructionList();
 
-    //TODO: Check if mission already saved -> do nothing
+    let input_name = document.getElementById("mission-name");
+    console.log("SAFE"+input_name.value);
 
-    //TODO: Compare with local mission set.
+    ACTIVE_MISSION.name = input_name.value;
 
+    for(i = 0; i<MISSION_LIST.length; i++)
+    {
+        if(MISSION_LIST[i].id === ACTIVE_MISSION.id)
+        {
+            MISSION_LIST[i] = ACTIVE_MISSION;
+        }
+    }
 
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['name'] !== "");
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['instructions'] !== []);
+    //TODO: Clear grid
+    //TODO: Respawn grid
 
-
-    //TODO: Else check if mission to be saved already exists on file -> update file.
-
-    //TODO: Else make a new file.
-
-
-    let missions = mission_get(MISSION_LIST);
-    mission_post(missions);
-    console.log(JSON.stringify(missions));
+    mission_post(MISSION_LIST);
 }
 
 function mission_reset()

@@ -85,8 +85,6 @@
 
 	border-top-right-radius: inherit;
 	border-top-left-radius: inherit;
-
-	background-color: var(--dialog-header-bg);
 }
 
 .dialog .dialog-content {
@@ -139,4 +137,15 @@
 	border-width: 1px 0;
 }
 
-
+.primary-input {
+	padding: 4px;
+	font-size: 13px;
+	border-width: 1px;
+	background-color: #848484;
+	color: #ffffff;
+	border-style: solid;
+	border-radius: 2px;
+}
+.primary-input:focus {
+	outline:none;
+}
