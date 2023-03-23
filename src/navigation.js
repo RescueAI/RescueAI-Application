@@ -64,6 +64,10 @@
         move_command('land', 'Forward Command Issued');
     }
     
+    function move_forward() {
+        move_command('backward', 'Backward Command Issued');
+    }
+    
     function move_backward() {
         move_command('backward', 'Backward Command Issued');
     }
