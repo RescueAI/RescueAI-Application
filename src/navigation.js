@@ -56,8 +56,12 @@
           });
     }
 
-    function move_forward() {
-        move_command('forward', 'Forward Command Issued');
+    function takeoff() {
+        move_command('takeoff', 'Forward Command Issued');
+    }
+
+    function land() {
+        move_command('land', 'Forward Command Issued');
     }
     
     function move_backward() {
