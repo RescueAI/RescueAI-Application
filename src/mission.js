@@ -53,7 +53,6 @@ function addNewMission() {
 
 function generateID()
 {
-  
     let maxID = 0;
     for(let i = 0; i < MISSION_LIST.length; i++)
     {
@@ -106,6 +105,7 @@ async function load_missions(reload)
  */
 function select_mission(id)
 {
+
     for(let i = 0; i < MISSION_LIST.length; i++)
     {
         let card = document.getElementById(`m-card-mission-${MISSION_LIST[i].id}`);
@@ -115,6 +115,8 @@ function select_mission(id)
             card.style = "background-color: var(--btn-kb-active); border:none";
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             load_mission_context(MISSION_LIST[i]);
+            document.getElementById("mission-name").disabled = false; //Allow user to enter a name in field
+            //now that something is selected.
         }
         else
         {
@@ -144,6 +146,9 @@ function load_mission_context(mission)
         {
             mission_load_instruction(instrucs[i])
         }
+
+        let input_name = document.getElementById("mission-name");
+        input_name.value = mission.name;
     }
 }
 
@@ -401,6 +406,11 @@ function mission_save()
 {
     ACTIVE_MISSION.instructions = getInstructionList();
 
+    let input_name = document.getElementById("mission-name");
+    console.log("SAFE"+input_name.value);
+
+    ACTIVE_MISSION.name = input_name.value;
+
     for(i = 0; i<MISSION_LIST.length; i++)
     {
         if(MISSION_LIST[i].id === ACTIVE_MISSION.id)
@@ -409,13 +419,12 @@ function mission_save()
         }
     }
 
-    MISSION_LIST = array.filter(mission => mission['name'] !== "");
-    MISSION_LIST = array.filter(mission => mission['instructions'] !== []);
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['name'] !== "");
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['instructions'] !== []);
     //TODO: Clear grid
     //TODO: Respawn grid
 
     mission_post(MISSION_LIST);
-    console.log(JSON.stringify(missions));
 }
 
 function mission_reset()
