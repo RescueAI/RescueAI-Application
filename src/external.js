@@ -144,3 +144,32 @@ function get_event()
         throw error
     })
 }
+
+
+
+const mbbutton = document.getElementById('mb-button');
+const mbicon = document.getElementById('mb-icon');
+
+let firstSVG;
+let secondSVG;
+
+// Fetch and store the content of the SVG files
+async function fetchSVGs() {
+  const responseFirstSVG = await fetch('firstImage.svg');
+  const responseSecondSVG = await fetch('secondImage.svg');
+  firstSVG = await responseFirstSVG.text();
+  secondSVG = await responseSecondSVG.text();
+  
+  // Set the initial image for the button
+  svgImage.innerHTML = firstSVG;
+}
+
+fetchSVGs();
+
+mbbutton.addEventListener('click', () => {
+    mbicon.classList.add('spin');
+  setTimeout(() => {
+    mbicon.innerHTML = mbicon.innerHTML === firstSVG ? secondSVG : firstSVG;
+    mbicon.classList.remove('spin');
+  }, 500);
+});

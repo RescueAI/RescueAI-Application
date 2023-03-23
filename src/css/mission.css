@@ -6,6 +6,14 @@
 	min-width: 150px;
 }
 
+.mission-header-container {
+	background-color: var(--btn-primary);  
+	width:100%; 
+	display: flex; 
+	align-items:center;
+	justify-content: space-between;
+}
+
 .mission-config-list {
 	display:flex; 
 	flex-direction:column; 
@@ -123,6 +131,14 @@
 	height: 50%;
 }
 
+.mission-select-header {
+	width:100%; 
+	display: flex; 
+	align-items:center;
+	justify-content: space-between;
+	background-color: var(--dialog-header-bg);
+}
+
 .mission-controls {
 	display: flex;
 	flex-direction: row;
@@ -156,12 +172,13 @@
 	background-color: var(--btn-card);
 	color: var(--btn-primary-text);
 
+
 	font-weight: 200;
 	font-style: normal;
 	text-decoration: none;
 
 	padding: 14px 15px;
-	border: 0px solid #000;
+	border: none;
 	border-radius: 5px;
 
 	display: inline-flex;
