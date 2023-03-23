@@ -47,47 +47,47 @@ let recentEvent = {
 
 function forwards() {
 	client.front(1);
-	console.log("Command sent");
+	console.log("Forwards command sent");
 }
 
 function backwards() {
 	client.back(1);
-	console.log("Command sent");
+	console.log("Backwards command sent");
 }
 
 function mvLeft() {
 	client.left(1);
-	console.log("Command sent");
+	console.log("Move left command sent");
 }
 
 function mvRight() {
 	client.right(1);
-	console.log("Command sent");
+	console.log("Move right command sent");
 }
 
 function rise() {
 	client.up(1);
-	console.log("Command sent");
+	console.log("Rise command sent");
 }
 
 function sink() {
 	client.down(1);
-	console.log("Command sent");
+	console.log("Sink command sent");
 }
 
 function rotateLeft() {
 	client.counterClockwise(1);
-	console.log("Command sent");
+	console.log("Rotate left command sent");
 }
 
 function rotateRight() {
 	client.clockwise(1);
-	console.log("Command sent");
+	console.log("Rotate right command sent");
 }
 
 function Hover() {
 	client.stop();
-	console.log("Command sent");
+	console.log("Hover command sent");
 }
 
 let model = undefined;
@@ -416,6 +416,35 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	}
+
+	if(req.url === "/api/drone/move/hover" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: Forward move command here
+		Hover()
+		req.on('end', () => {
+			console.log("forward");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not move drone forward");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully moved forward");
+				}
+			});
+		});
+
 	}
 
 	if (req.url.startsWith('/api/drone/start/') && req.method === 'POST') {
