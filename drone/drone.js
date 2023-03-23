@@ -69,12 +69,12 @@ let recentEvent = {
 // })
 
 function forwards() {
-	client.front(1);
+	client.takeoff();
 	console.log("Forwards command sent");
 }
 
 function backwards() {
-	client.back(1);
+	client.land();
 	console.log("Backwards command sent");
 }
 
