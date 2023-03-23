@@ -65,7 +65,7 @@
     }
     
     function move_forward() {
-        move_command('backward', 'Backward Command Issued');
+        move_command('forward', 'Forward Command Issued');
     }
     
     function move_backward() {
