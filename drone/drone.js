@@ -10,6 +10,7 @@ const client = arDone.createClient();
 const axios = require('axios')
 const FormData = require("form-data")
 const moment = require("moment");
+const Jimp = require('jimp');
 
 const mlreqOptions = {
 	hostname: "127.0.0.1",
@@ -29,7 +30,6 @@ const predictOptions = {
 let boxes;
 let isGettingBoxes = false;
 let preBoxedImg;
-
 
 const USE_DRONE = true;
 const pngStream = client.getPngStream();
@@ -65,7 +65,7 @@ const server = http.createServer((req, res) => {
 		if (!USE_DRONE) webCamCapture();
 		if (lastPng) {
 			try {
-				//res.writeHead('200', {'Content-Type': 'image/png'});
+				res.writeHead('200', {'Content-Type': 'image/png'});
 				
 				if (!USE_DRONE) lastPng = fs.readFileSync('./src/known.jpg');
 				detect(lastPng);
@@ -441,7 +441,7 @@ server.listen(6969, () => {
 
 async function detect(image) {
 	let buf = image;
-	if (!USER_DRONE) buf = fs.readFileSync('./src/known.jpg')
+	if (!USE_DRONE) buf = fs.readFileSync('./src/known.jpg')
 	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
 
 	if(buf === undefined || isGettingBoxes) return;
@@ -453,9 +453,13 @@ async function detect(image) {
 		}
 
 		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
-		else formData.append('image', buf);
+		else {
+			buf = buf.toString('base64');
+			Jimp.read(buf, )
+			formData.append('image', buf);
+		}
 
-		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
+		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", buf);
 		boxes = response.data;
 		if (boxes?.boxes) {
 			const currentTime = moment();
