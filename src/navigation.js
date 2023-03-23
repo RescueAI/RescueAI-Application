@@ -95,4 +95,8 @@
     function rot_right() {
         move_command('rotate-right', 'Rotate Right Command Issued');
     }
+
+    function hover() {
+        move_command('hover', 'Hover Command Issued');
+    }
     

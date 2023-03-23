@@ -11,6 +11,29 @@ const axios = require('axios')
 const FormData = require("form-data")
 const moment = require("moment");
 
+client.config('general:navdata_demo', true);
+client.config('general:navdata_options', 'navdata_options');
+client.config("control:outdoor",false);
+client.config("control:altitude_max", 1500);//height in mm 
+client.config("control:flight_without_shell",false);
+client.config('control:indoor_euler_angle_max', 0.17); //angle in rads 
+client.config('control:control_vz_max',200);
+
+//Emergency land on Ctrl + C **************************************************************************
+var exiting = false;
+process.on('SIGINT', function() {
+    if (exiting) {
+        process.exit(0);
+    } else {
+        console.log('Got SIGINT. Landing, press Control-C again to force exit.');
+        exiting = true;
+        mission.control().disable();
+        client.land(function() {
+            process.exit(0);
+        });
+    }
+});
+
 const mlreqOptions = {
 	hostname: "127.0.0.1",
 	port: 1000,
@@ -51,6 +74,60 @@ let recentEvent = {
 // 	console.log(err);
 // })
 
+function liftoff() {
+	client.takeoff();
+	console.log("Takeoff command sent");
+}
+
+function Land() {
+	client.land();
+	console.log("Land command sent");
+}
+
+function forwards() {
+	client.front(1);
+	console.log("Forwards command sent");
+}
+
+function backwards() {
+	client.back(1);
+	console.log("Backwards command sent");
+}
+
+function mvLeft() {
+	client.left(1);
+	console.log("Move left command sent");
+}
+
+function mvRight() {
+	client.right(1);
+	console.log("Move right command sent");
+}
+
+function rise() {
+	client.up(1);
+	console.log("Rise command sent");
+}
+
+function sink() {
+	client.down(1);
+	console.log("Sink command sent");
+}
+
+function rotateLeft() {
+	client.counterClockwise(1);
+	console.log("Rotate left command sent");
+}
+
+function rotateRight() {
+	client.clockwise(1);
+	console.log("Rotate right command sent");
+}
+
+function Hover() {
+	client.stop();
+	console.log("Hover command sent");
+}
 
 let model = undefined;
 //initializeTf();
@@ -154,6 +231,64 @@ const server = http.createServer((req, res) => {
 		});
 	}
 
+	if(req.url === "/api/drone/move/takeoff" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: takeoff move command here
+		liftoff();
+		req.on('end', () => {
+			console.log("takeoff");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not takeoff");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully took flight");
+				}
+			});
+		});
+
+	}
+
+	if(req.url === "/api/drone/move/land" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: Forward move command here
+		Land();
+		req.on('end', () => {
+			console.log("land");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not land drone");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully landed");
+				}
+			});
+		});
+
+	}
+
 	if(req.url === "/api/drone/move/forward" && req.method === 'POST') 
 	{
 		let body = '';
@@ -162,6 +297,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		forwards()
 		req.on('end', () => {
 			console.log("forward");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -190,6 +326,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		backwards();
 		req.on('end', () => {
 			console.log("backward");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -217,6 +354,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		mvLeft();
 		req.on('end', () => {
 			console.log("left");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -244,6 +382,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		mvRight();
 		req.on('end', () => {
 
 			console.log("right");
@@ -272,6 +411,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rise();
 		req.on('end', () => {
 			console.log("up");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -299,6 +439,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		sink()
 		req.on('end', () => {
 			console.log("down");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -326,6 +467,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rotateLeft();
 		req.on('end', () => {
 			console.log("rotate-left");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -353,6 +495,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
+		rotateRight();
 		req.on('end', () => {
 			console.log("rotate-right");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -370,6 +513,35 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	}
+
+	if(req.url === "/api/drone/move/hover" && req.method === 'POST') 
+	{
+		let body = '';
+		req.on('data', chunk => {
+			
+		})
+
+		//TODO: Forward move command here
+		Hover()
+		req.on('end', () => {
+			console.log("hover");
+			fs.writeFile('./data/commands.json', body, err => {
+
+				if(err) 
+				{
+					console.error(err);
+					res.statusCode = 500;
+					res.end("Error: Could not make drone hover");
+				}
+				else
+				{
+					res.statusCode = 200;
+					res.end("Drone successfully stopped moving");
+				}
+			});
+		});
+
 	}
 
 	if (req.url.startsWith('/api/drone/start/') && req.method === 'POST') {
