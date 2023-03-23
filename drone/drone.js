@@ -11,6 +11,29 @@ const axios = require('axios')
 const FormData = require("form-data")
 const moment = require("moment");
 
+client.config('general:navdata_demo', true);
+client.config('general:navdata_options', 'navdata_options');
+client.config("control:outdoor",false);
+client.config("control:altitude_max", 1500);//height in mm 
+client.config("control:flight_without_shell",false);
+client.config('control:indoor_euler_angle_max', 0.17); //angle in rads 
+client.config('control:control_vz_max',200);
+
+//Emergency land on Ctrl + C **************************************************************************
+var exiting = false;
+process.on('SIGINT', function() {
+    if (exiting) {
+        process.exit(0);
+    } else {
+        console.log('Got SIGINT. Landing, press Control-C again to force exit.');
+        exiting = true;
+        mission.control().disable();
+        client.land(function() {
+            process.exit(0);
+        });
+    }
+});
+
 const mlreqOptions = {
 	hostname: "127.0.0.1",
 	port: 1000,
