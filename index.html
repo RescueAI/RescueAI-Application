@@ -21,9 +21,11 @@
 
           <div class="mission-config-list">
               <div class="dialog" >
-                  <p class="dialog-header" style="background-color: var(--btn-primary);  width:100%; display: flex; align-items:center;">
-                    Mission Configuration
-                  </p>
+                  <div class="mission-header-container dialog-header ">
+                    <p class="noselect" >
+                      Mission Configuration
+                    </p>
+                  </div>
 
                   <div class="dialog-content" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;"> <!-- LOG DATA HERE -->
                     <table id="mission-instruction-table" class="input-table" style=>
@@ -32,12 +34,12 @@
                         <th class=""> Speed   </th>
                         <th class=""> Duration</th>
                       </tr>   
-
-  
-
                     </table>
                   </div>
                   
+                  <div class="mission-config-options" style="padding-bottom: 0px;">
+                    <input id="mission-name" class="primary-input m-1 w-full" disabled style="border:1px solid rgba(43,43,43,0.5)"/> 
+                  </div>
                   <div class="mission-config-options" style="padding-bottom: 0px;">
                     <button class="primary-btn m-1 w-full" onclick="mission_add_instruction()"> Add Instruction </button>
                     <button class="primary-btn m-1 w-full" onclick="mission_remove_instruction()"=> Remove Instruction </button>
@@ -58,14 +60,14 @@
         <div class="mission-control-container">
           <!-- TODO: Mission CRUD Operations -->
           <div class="mission-crud">
-            <button class="primary-btn m-1 w-full" onclick="mission_new('NEW', false)">New Mission</button>
-            <button class="primary-btn m-1 w-full" onclick="mission_edit('EDIT', false)">Edit Mission</button>
-            <button class="primary-btn m-1 w-full" onclick="mission_delete('DELETE', false)">Delete Mission</button>
+            <button class="primary-btn m-1 w-full" onclick="mission_new()">New Mission</button>
+            <!--button class="primary-btn m-1 w-full" onclick="mission_edit('EDIT', false)">Edit Mission</button-->
+            <button class="primary-btn m-1 w-full" onclick="mission_delete()">Delete Mission</button>
           </div>
           <!-- TODO: Display Mission Configurations -->
           <div class="mission-select-container">
             <div class="dialog">
-                <div class="dialog-header">
+                <div class="dialog-header mission-select-header">
                   <span class="noselect">Select Mission</span>
                 </div>
                 <div class="dialog-content">
@@ -77,7 +79,7 @@
 
           <div class="mission-controls">
             <button class="primary-btn m-1 w-full" onclick="mission_start()">Start Mission</button>
-            <button class="primary-btn m-1 w-full" onclick="mission_end()">Stop Mission</button>
+            <button class="primary-btn m-1 w-full" onclick="mission_stop()">Stop Mission</button>
           </div>
         </div>
       </div>
