@@ -85,12 +85,12 @@ function Land() {
 }
 
 function forwards() {
-	client.front();
+	client.front(1);
 	console.log("Forwards command sent");
 }
 
 function backwards() {
-	client.back();
+	client.back(1);
 	console.log("Backwards command sent");
 }
 
@@ -239,7 +239,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: takeoff move command here
-		takeoff()
+		liftoff();
 		req.on('end', () => {
 			console.log("takeoff");
 			fs.writeFile('./data/commands.json', body, err => {
@@ -268,7 +268,7 @@ const server = http.createServer((req, res) => {
 		})
 
 		//TODO: Forward move command here
-		Land()
+		Land();
 		req.on('end', () => {
 			console.log("land");
 			fs.writeFile('./data/commands.json', body, err => {
