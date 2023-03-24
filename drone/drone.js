@@ -454,12 +454,14 @@ async function detect(image) {
 
 		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
 		else {
-			buf = buf.toString('base64');
-			Jimp.read(buf, )
-			formData.append('image', buf);
+			console.log(buf);
+			const img = await Jimp.read(buf);
+			buf = img.bitmap;
+			
+			//formData.append('image', img.bitmap);
 		}
 
-		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", buf);
+		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", );
 		boxes = response.data;
 		if (boxes?.boxes) {
 			const currentTime = moment();

@@ -34,8 +34,8 @@ def get_boxes():
     img_rdata = request.data
     #image_b64 = request.files.get('image', '')
     #image_bytes = base64.b64decode(image_b64)
-    image = Image.open(io.BytesIO(img_rdata))
-    results = model(image)
+    #image = Image.open(io.BytesIO(img_rdata))
+    results = model(img_rdata)
     return jsonify({'boxes': results[0].boxes.xyxy.tolist()}), 200
 
 @app.route("/predict_img")
