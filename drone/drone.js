@@ -10,6 +10,7 @@ const client = arDone.createClient();
 const axios = require('axios')
 const FormData = require("form-data")
 const moment = require("moment");
+const Jimp = require('jimp');
 
 client.config('general:navdata_demo', true);
 client.config('general:navdata_options', 'navdata_options');
@@ -48,10 +49,13 @@ const predictOptions = {
 	method: "GET"
 }
 
+
 let boxes;
+let isGettingBoxes = false;
 let preBoxedImg;
 
-// const pngStream = client.getPngStream();
+const USE_DRONE = true;
+const pngStream = client.getPngStream();
 let lastPng;
 
 let MISSION_START_TIME;
@@ -66,13 +70,14 @@ let recentEvent = {
 };
 
 //{"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":""}
-// pngStream.on('data', buffer => {
-// 	lastPng = buffer;
-// })
-// .on('error', err => {
-// 	console.log('png stream error');
-// 	console.log(err);
-// })
+
+pngStream.on('data', buffer => {
+	lastPng = buffer;
+})
+.on('error', err => {
+	console.log('png stream error');
+	console.log(err);
+})
 
 function liftoff() {
 	client.takeoff();
@@ -130,19 +135,18 @@ function Hover() {
 }
 
 let model = undefined;
-//initializeTf();
 
 const server = http.createServer((req, res) => {
 	if(req.url === "/camera") {
 		
-		webCamCapture();
+		if (!USE_DRONE) webCamCapture();
 		if (lastPng) {
 			try {
-				//res.writeHead('200', {'Content-Type': 'image/png'});
+				res.writeHead('200', {'Content-Type': 'image/png'});
 				
-				
+				if (!USE_DRONE) lastPng = fs.readFileSync('./src/known.jpg');
 				detect(lastPng);
-				lastPng = fs.readFileSync('./src/known.jpg');
+
 				const data = {image: lastPng, boxes: boxes};
 				const dataBuffer = Buffer.from(JSON.stringify(data));
 				res.end(lastPng);
@@ -608,17 +612,28 @@ server.listen(6969, () => {
 });
 
 async function detect(image) {
-	const buf = fs.readFileSync('./src/known.jpg')
+	let buf = image;
+	if (!USE_DRONE) buf = fs.readFileSync('./src/known.jpg')
 	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
-	if(image === undefined) return;
+
+	if(buf === undefined || isGettingBoxes) return;
 	try {
-		
+		isGettingBoxes = true;
 		const formData = new FormData();
 		const headers = {
 			...formData.getHeaders()
 		}
-		formData.append('image', fs.createReadStream('./src/known.jpg'));
-		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, { headers });
+
+		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
+		else {
+			console.log(buf);
+			const img = await Jimp.read(buf);
+			buf = img.bitmap;
+			
+			//formData.append('image', img.bitmap);
+		}
+
+		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", );
 		boxes = response.data;
 		if (boxes?.boxes) {
 			const currentTime = moment();
@@ -660,6 +675,8 @@ async function detect(image) {
 		// }
 	} catch (e) {
 		console.log(e)
+	} finally {
+		isGettingBoxes = false;
 	}
 	
 }

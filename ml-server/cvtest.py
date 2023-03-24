@@ -7,6 +7,8 @@ from ultralytics import YOLO
 import cv2 as cv
 from flask import Flask, jsonify, request, send_file
 import io
+import base64
+
 
 app = Flask(__name__)
 
@@ -29,10 +31,11 @@ def predict_photo_dir():
 
 @app.route("/get_boxes/", methods=['POST'])
 def get_boxes():
-    print(request.files)
-    image_file = request.files.get('image', '')
-    image = Image.open(image_file.stream)
-    results = model(image)
+    img_rdata = request.data
+    #image_b64 = request.files.get('image', '')
+    #image_bytes = base64.b64decode(image_b64)
+    #image = Image.open(io.BytesIO(img_rdata))
+    results = model(img_rdata)
     return jsonify({'boxes': results[0].boxes.xyxy.tolist()}), 200
 
 @app.route("/predict_img")
