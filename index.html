@@ -10,6 +10,7 @@
   <title>RescueAI - Automated Search and Rescue</title>
   <script src="./render.js" type="module" defer></script>
   <script src="./src/navigation.js"></script>
+  <script src="node_modules/hls.js/dist/hls.min.js" defer></script>
 </head>
 <body>
 	<div class="app-layout">
@@ -90,6 +91,7 @@
       <!-- TODO: Fix video wrapper to maintain aspect ratio.-->
       <div class="app-video-wrapper">
         <img id="source-image" class="video-view"></img>
+        <video id="drone-base-video" class="video-view"></video>
         <canvas id="image-output" class="video-view"></canvas>
       </div>
     </div>
@@ -179,6 +181,11 @@
   <script src="./src/keyboard.js"></script>
   <script async src="./opencv.js" onload="openCvReady();"></script>
   <script src="src/dronecv.js" type="module" defer></script>
+
+
+  <script type="text/javascript" src="/dronestream/nodecopter-client.js" defer></script>
+  <script type="text/javascript" src="src/video.js" defer></script>
+  
   <script type="text/javascript" src="src/external.js" defer></script>
   <script type="text/javascript" src="src/mission.js" defer></script>
 

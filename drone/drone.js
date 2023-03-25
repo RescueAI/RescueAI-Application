@@ -7,6 +7,8 @@ const fs = require('fs');
 const jimp = require('jimp');
 const NodeWebcam = require("node-webcam");
 const client = arDone.createClient();
+const videoStream = client.getVideoStream();
+
 const axios = require('axios')
 const FormData = require("form-data")
 const moment = require("moment");
@@ -19,6 +21,29 @@ client.config("control:altitude_max", 1500);//height in mm
 client.config("control:flight_without_shell",false);
 client.config('control:indoor_euler_angle_max', 0.17); //angle in rads 
 client.config('control:control_vz_max',200);
+
+const DRONE_ADDRESS = '192.168.2.1'
+
+const Stream = require('node-rtsp-stream');
+const stream = new Stream(
+	{
+		name: 'DroneStream',
+		streamUrl: `rtsp://${DRONE_ADDRESS}/live.sdp`,
+		wsPort: 9999,
+		ffmpegOptions: {
+			'-stat':'',
+			'-r': 30, //Set the frame rate
+		},
+	});
+
+
+
+
+
+
+
+
+
 
 //Emergency land on Ctrl + C **************************************************************************
 var exiting = false;
@@ -137,6 +162,14 @@ function Hover() {
 let model = undefined;
 
 const server = http.createServer((req, res) => {
+
+	//Read
+	fs.createReadStream(__dirname + "/index.html").pipe(res);
+
+
+
+
+
 	if(req.url === "/camera") {
 		
 		if (!USE_DRONE) webCamCapture();
