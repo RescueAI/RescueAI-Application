@@ -24,7 +24,7 @@ let key_active = false; //Stops button presses from "repeating" while being held
 
 function KeyDown(event) {
 
-    //Only capture keys if control key is held. (else return void)
+    //TODO: Only capture keys if control key is held. (else return void) (Check if this code works)
     //if(event.ctrlKey && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd'))
     //{
     //    event.preventDefault();
