@@ -69,6 +69,18 @@ let recentEvent = {
 	localtime: moment()
 };
 
+const events = [
+	{
+		message:"ALERT- HUMAN ACTIVITY DETECTED",
+		image: "../src/known.jpg",
+		detections: 1,
+		timestamp: "dw",
+		localtime: "d1w"
+	},
+];
+
+let lastEventIndex = 0;
+
 //{"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":""}
 
 pngStream.on('data', buffer => {
@@ -175,14 +187,13 @@ const server = http.createServer((req, res) => {
 		res.end(JSON.stringify(boxes?.boxes));
 	}
 
-	if (req.url === "/event" && req.method === 'GET') {
-		if (recentEvent.image === undefined) {
-			res.writeHead(500);
-			res.end("No events to return");
-			return;
-		}
-		res.writeHead(200);
-		res.end(JSON.stringify(recentEvent));
+	if (req.url === '/get_event' && req.method === 'GET') {
+		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.statusCode = 200;
+		res.end(JSON.stringify(events[lastEventIndex]));
+	
+		lastEventIndex = (lastEventIndex + 1) % events.length;
 	}
 
 	if (req.url === "/light") {

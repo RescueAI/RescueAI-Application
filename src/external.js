@@ -2,18 +2,7 @@
     //testAdd();
 //};
 
-let LAST_EVENT;
 
-setInterval(() => {
-    console.log("Looking for events");
-    let event = get_event();
-
-    event ? ()=>{console.log(event); addEventLog(event)} : null;
-
-    LAST_EVENT = event;
-
-
-}, 10000)
 
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
@@ -115,9 +104,27 @@ function event_decline(row_id)
     document.getElementById("event-log-table").deleteRow(row.rowIndex);
 }
 
-function get_event()
-{
-    return fetch('http://localhost:6969/event')
+let LAST_EVENT = null;
+let LAST_DETECTION_TIME = null;
+setInterval(()=>{
+    
+    let event = get_event()
+
+    if ((event != null) &&(LAST_EVENT === null || JSON.stringify(LAST_EVENT) !== JSON.stringify(event))) {
+        console.log("3. ADDING EVENT:" + event)
+        const currentTime = new Date();
+        if (LAST_DETECTION_TIME === null || (currentTime - LAST_DETECTION_TIME) / 1000 > 20) {
+          LAST_DETECTION_TIME = currentTime;
+          LAST_EVENT = event;
+          addEventLog(event);
+        }
+    }
+
+}, 5000);
+
+function get_event() {
+    console.log("1. Looking for event");
+    return fetch('http://localhost:6969/get_event')
     .then(response => {
         if(response.ok)
         {
@@ -128,22 +135,24 @@ function get_event()
             console.error("Error:", response.statusText);
         }
 
-    }).then(data => {
-        //Ensure we don't replace unsaved data. 
-        if(LAST_EVENT == null || JSON.stringify(data) === JSON.stringify(LAST_EVENT))
-        {
-            return null;
+    }).then(event => {
+        console.log("2. Returning event data");
+
+        return 	{
+            message:"ALERT- HUMAN ACTIVITY DETECTED",
+            image: "../src/known.jpg",
+            detections: 1,
+            timestamp: "dw",
+            localtime: "d1w"
         }
-        else
-        {
-            console.log("Received event data:", data);
-            return data;
-        }
+
+        return event;
+
     }).catch(error => {
         console.error("Error", error);
         throw error
     })
-}
+  }
 
 
 
