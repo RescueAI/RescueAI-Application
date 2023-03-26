@@ -28,6 +28,11 @@
 	background-color: var(--btn-primary-active);
 }
 
+.primary-btn:disabled {
+	background-color: var(--btn-primary-active);
+	color: var(--btn-primary-hover);
+}
+
 .btn-accept {
 	background-color: var(--btn-accept);
 }
@@ -148,4 +153,9 @@
 }
 .primary-input:focus {
 	outline:none;
+}
+
+.primary-input:disabled {
+	background-color: #4e4e4e;
+	color: #949494;
 }

@@ -20,26 +20,32 @@ function KeyEnd() {
     clearInterval(counter);
 }
 
-//TODO: Update to use ctrl+{key} inputs only.
-
 let key_active = false; //Stops button presses from "repeating" while being held down.
 
 function KeyDown(event) {
-    //document.getElementById(`last-keypress`).innerText = event.key + " Pressed";
 
-    let button = document.getElementById(`kb-${event.key}`);
+    //Only capture keys if control key is held. (else return void)
+    if(event.ctrlKey && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd'))
+    {
+        event.preventDefault();
+    }
     
-    //TODO: Start button held action. Will need something like KeyStart above.
+    if (!event.ctrlKey) {
+        
+        return;
+    }
+
     if(!key_active && button !== null)
     {
+        let button = document.getElementById(`kb-${event.key}`);
+
         button.style = "background-color: var(--btn-kb-active);";
-        key_active = true;
         button.click();
     }
 }
 
 function KeyUp(event) {
-    //document.getElementById(`last-keypress`).innerText = event.key + " Released";
+
     key_active = false;
 
     let button = document.getElementById(`kb-${event.key}`);
@@ -48,7 +54,7 @@ function KeyUp(event) {
     {
         hover();
         button.style = 'none'
-        //TODO: Stop button held action. Will need something like KeyStop above.
+        key_flag = false;
     }
 
 }

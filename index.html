@@ -41,12 +41,12 @@
                     <input id="mission-name" class="primary-input m-1 w-full" disabled style="border:1px solid rgba(43,43,43,0.5)"/> 
                   </div>
                   <div class="mission-config-options" style="padding-bottom: 0px;">
-                    <button class="primary-btn m-1 w-full" onclick="mission_add_instruction()"> Add Instruction </button>
-                    <button class="primary-btn m-1 w-full" onclick="mission_remove_instruction()"=> Remove Instruction </button>
+                    <button id="m-add-instr-button" class="primary-btn m-1 w-full" disabled onclick="mission_add_instruction()"> Add Instruction </button>
+                    <button id="m-remove-instr-button" class="primary-btn m-1 w-full" disabled onclick="mission_remove_instruction()"=> Remove Instruction </button>
                   </div>
                   <div class="mission-config-options">
                     <button class="primary-btn m-1 w-full" onclick="mission_reset()"> Reset </button>
-                    <button class="primary-btn m-1 w-full" onclick="mission_save()"> Save </button>
+                    <button id="m-save-button" class="primary-btn m-1 w-full" disabled onclick="mission_save()"> Save </button>
                   </div>
               </div>
           </div> 

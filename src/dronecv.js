@@ -14,7 +14,7 @@ let boxes;
 
 
 setInterval(() => {
-  processVideo();
+  //processVideo();
 }, 100)
 
 
