@@ -25,19 +25,20 @@ let key_active = false; //Stops button presses from "repeating" while being held
 function KeyDown(event) {
 
     //Only capture keys if control key is held. (else return void)
-    if(event.ctrlKey && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd'))
-    {
-        event.preventDefault();
-    }
+    //if(event.ctrlKey && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd'))
+    //{
+    //    event.preventDefault();
+    //}
     
-    if (!event.ctrlKey) {
+    //if (!event.ctrlKey) {
         
-        return;
-    }
+    //    return;
+    //}
+
+    let button = document.getElementById(`kb-${event.key}`);
 
     if(!key_active && button !== null)
     {
-        let button = document.getElementById(`kb-${event.key}`);
 
         button.style = "background-color: var(--btn-kb-active);";
         button.click();
