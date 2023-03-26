@@ -143,7 +143,7 @@ function load_mission_context(mission)
         document.getElementById("m-save-button").disabled = false; 
         document.getElementById("m-add-instr-button").disabled = false; 
         document.getElementById("m-remove-instr-button").disabled = false; 
-        
+
         //now that something is selected.
         let instrucs = mission.instructions;
     
@@ -275,8 +275,6 @@ function mission_add_instruction()
 
     let table = document.getElementById('mission-instruction-table');
     let rowCount = table.rows.length; //This'll be the ID difference for everything.
-    console.log("B:"+rowCount);
-    //TODO: Generate row element with inputs.
     let row = table.insertRow();
     row.id = `msn-c-${rowCount}`;
 
@@ -308,8 +306,6 @@ function mission_add_instruction()
     input_s.name = "Speed";
     input_s.className = "primary-input"
 
-    console.log(input_s);
-
     s_cell.appendChild(input_s);
 
     let d_cell = row.insertCell(2);     //speed_cell
@@ -321,8 +317,6 @@ function mission_add_instruction()
     input_d.value = restraint.d_default;
     input_d.name = "Duration";
     input_d.className = "primary-input"
-
-    console.log(input_d);
 
     d_cell.appendChild(input_d);
     
@@ -356,7 +350,6 @@ function mission_load_instruction(instruction)
 
     if(!mission_validate_instruction(instruction))
     {
-        console.log("valid instruction parameters for numbers are all set to 1. Please mission_load_instruction function")
         console.error("Invalid instruction data attempted to be loaded in mission builder\n");
         return NULL;
     }
@@ -476,8 +469,6 @@ function getInstructionList()
         instruct_list.push(getRowInstruction(i));
     }
 
-    console.log("Instuction List Object: " + JSON.stringify(instruct_list));
-
     return instruct_list;
 }
 
@@ -499,8 +490,6 @@ function mission_save()
 
     MISSION_LIST = MISSION_LIST.filter(mission => mission['name'] != "");
     MISSION_LIST = MISSION_LIST.filter(mission => mission['instructions'] != []);
-
-    console.log("HEY: " +JSON.stringify(MISSION_LIST));
 
     mission_post(MISSION_LIST);
     CHANGES_FLAG = false;
