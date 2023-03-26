@@ -1,6 +1,6 @@
-//document.getElementById("kb-w").onclick = () => {
-    //testAdd();
-//};
+document.getElementById("kb-w").onclick = () => {
+    testAdd();
+};
 
 let LAST_EVENT;
 
