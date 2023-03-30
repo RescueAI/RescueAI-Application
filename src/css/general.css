@@ -28,6 +28,11 @@
 	background-color: var(--btn-primary-active);
 }
 
+.primary-btn:disabled {
+	background-color: var(--btn-primary-active);
+	color: var(--btn-primary-hover);
+}
+
 .btn-accept {
 	background-color: var(--btn-accept);
 }
@@ -85,8 +90,6 @@
 
 	border-top-right-radius: inherit;
 	border-top-left-radius: inherit;
-
-	background-color: var(--dialog-header-bg);
 }
 
 .dialog .dialog-content {
@@ -139,4 +142,20 @@
 	border-width: 1px 0;
 }
 
+.primary-input {
+	padding: 4px;
+	font-size: 13px;
+	border-width: 1px;
+	background-color: #848484;
+	color: #ffffff;
+	border-style: solid;
+	border-radius: 2px;
+}
+.primary-input:focus {
+	outline:none;
+}
 
+.primary-input:disabled {
+	background-color: #4e4e4e;
+	color: #949494;
+}

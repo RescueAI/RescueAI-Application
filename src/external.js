@@ -1,6 +1,19 @@
-document.getElementById("kb-w").onclick = () => {
-    testAdd();
-};
+//document.getElementById("kb-w").onclick = () => {
+    //testAdd();
+//};
+
+let LAST_EVENT;
+
+setInterval(() => {
+    console.log("Looking for events");
+    let event = get_event();
+
+    event ? ()=>{console.log(event); addEventLog(event)} : null;
+
+    LAST_EVENT = event;
+
+
+}, 10000)
 
 function clicked(button, implemented) {
     alert("Interface Script Loaded: Clicked "+ button+ " button ("+ implemented+ ")");
@@ -14,9 +27,8 @@ function testAdd()
         "localtime":"01:102:3"
     }
 
-    addCommandLog({"message":"User Action - Forward", "timestamp":"01:20:10", "localtime":"01:32:23"});
-    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-shirt-white-background-person-gray-photo-placeholder-man-132818487.jpg"});
-    addMission("");
+    addEventLog({"message":"Alert-Test", "timestamp":"01:20:10", "localtime":"01:32:23", "thumbnail":"https://cdn.discordapp.com/attachments/947693151387275285/1087516620261433414/image.png"});
+    //addMission("");
     
 }
 
@@ -103,14 +115,35 @@ function event_decline(row_id)
     document.getElementById("event-log-table").deleteRow(row.rowIndex);
 }
 
-function addMission(data)
+function get_event()
 {
-    let container = document.getElementById("m-select");
+    return fetch('http://localhost:6969/event')
+    .then(response => {
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else
+        {
+            console.error("Error:", response.statusText);
+        }
 
-    let card = document.createElement('button');
-    card.className = "mission-card";
-    card.innerHTML = "Mission Card";
-    
-    container.appendChild(card);
+    }).then(data => {
+        //Ensure we don't replace unsaved data. 
+        if(LAST_EVENT == null || JSON.stringify(data) === JSON.stringify(LAST_EVENT))
+        {
+            return null;
+        }
+        else
+        {
+            console.log("Received event data:", data);
+            return data;
+        }
+    }).catch(error => {
+        console.error("Error", error);
+        throw error
+    })
 }
+
+
 
