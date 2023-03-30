@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 model_dict = torch.load('./ml-server/pt_model/yolov8_soldier_best_ep25.pt')
-model = YOLO("./ml-server/pt_model/yolov8_soldier_best_ep25.pt")
+model = YOLO("./ml-server/pt_model/newmodel.pt")
 
 #model.load_state_dict(model_dict)
 
@@ -38,6 +38,7 @@ def get_boxes():
     #image_bytes = base64.b64decode(image_b64)
     image = Image.open(image_b64.stream)
     results = model(image)
+    
     return jsonify({'boxes': results[0].boxes.xyxy.tolist()}), 200
 
 @app.route("/predict_img")
