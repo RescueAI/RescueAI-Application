@@ -14,9 +14,11 @@ let boxes;
 
 
 setInterval(() => {
-  //processVideo();
-}, 100)
-
+  processVideo();
+}, 50)
+setInterval(()=> {
+  updateBoxes();
+}, 100);
 
 async function processVideo() {
 
