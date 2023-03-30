@@ -12,6 +12,7 @@ const restraint = {
 
 let MISSION_LIST = [];
 let ACTIVE_MISSION;
+let CHANGES_FLAG = false;
 
 window.onload = function() {
     load_missions(false);
@@ -43,8 +44,6 @@ function addNewMission() {
     container.appendChild(card);
   
     //let mission = { id: id, name: "", instructions: [] };
-
-
     // Activates select_mission which will make it the active mission and bring up configuration context
     //card.click();
   
@@ -87,14 +86,19 @@ async function load_missions(reload)
 
         MISSION_LIST = missions;
 
-        for(let i = 0; i < missions.length; i++)
-        {
-            addMission(missions[i]);
-        }
+        refresh_mission_list();
     }
     catch (error)
     {
         console.error(`Error: ${error}`);
+    }
+}
+
+function load_mission_list()
+{
+    for(let i = 0; i < MISSION_LIST.length; i++)
+    {
+        addMission(MISSION_LIST[i]);
     }
 }
 
@@ -105,24 +109,21 @@ async function load_missions(reload)
  */
 function select_mission(id)
 {
+    update_active_mission(get_mission_from_list(id));
+}
 
-    for(let i = 0; i < MISSION_LIST.length; i++)
+function get_mission_from_list(id)
+{
+    for(let i = 0; i<MISSION_LIST.length; i++)
     {
-        let card = document.getElementById(`m-card-mission-${MISSION_LIST[i].id}`);
-
         if(MISSION_LIST[i].id == id)
         {
-            card.style = "background-color: var(--btn-kb-active); border:none";
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            load_mission_context(MISSION_LIST[i]);
-            document.getElementById("mission-name").disabled = false; //Allow user to enter a name in field
-            //now that something is selected.
-        }
-        else
-        {
-            card.style = 'none';
+            return MISSION_LIST[i];
         }
     }
+
+    console.log("Mission was not found in list returning null");
+    return null;
 }
 
 function is_active(mission)
@@ -132,24 +133,36 @@ function is_active(mission)
 
 function load_mission_context(mission)
 {
-    console.log(JSON.stringify(mission))
-    if(!is_active(mission))
-    {
-        ACTIVE_MISSION = mission;
+    console.log("Updating mission context")
 
-        console.log("ACTIVE MISSION SET TO:" + JSON.stringify(ACTIVE_MISSION));
-    
-        mission_clear_instructions();
+    mission_clear_instructions();
+
+    if(mission != null)
+    {
+        document.getElementById("mission-name").disabled = false; //Allow user to edit name field
+        document.getElementById("m-save-button").disabled = false; 
+        document.getElementById("m-add-instr-button").disabled = false; 
+        document.getElementById("m-remove-instr-button").disabled = false; 
+
+        //now that something is selected.
         let instrucs = mission.instructions;
     
         for(i = 0; i<instrucs.length; i++)
         {
             mission_load_instruction(instrucs[i])
         }
-
+    
         let input_name = document.getElementById("mission-name");
         input_name.value = mission.name;
     }
+    else
+    {
+        document.getElementById("mission-name").disabled = true; 
+        document.getElementById("m-save-button").disabled = true; 
+        document.getElementById("m-add-instr-button").disabled = true; 
+        document.getElementById("m-remove-instr-button").disabled = true; 
+    }
+
 }
 
 function mission_clear_instructions()
@@ -165,29 +178,95 @@ function mission_clear_instructions()
 
 function mission_new()
 {
-    //TODO: Add mission card
 
+    let blank_mission;
 
-    mission_clear_instructions();
-
-    let mission = addNewMission();
-
-    MISSION_LIST.push(mission);
-    let card = document.getElementById(`m-card-mission-${mission.id}`)
-    card.click();
-
-    console.log("ATTEMPT TO CLEAR");
-
+    for(let i = 0; i<MISSION_LIST.length; i++)
+    {
+        if(MISSION_LIST[i].name == "" || MISSION_LIST.instructions == [])
+        {
+           blank_mission = MISSION_LIST[i]
+        }
+    }
+    
+    if(blank_mission == null || (blank_mission?.name !== "" && blank_mission?.instructions !== []))
+    {
+        let mission = addNewMission();
+        console.log("New Mission: "+JSON.stringify(mission));
+        update_active_mission(mission);
+        MISSION_LIST.push(mission);
+    }
+    else
+    {
+        update_active_mission(blank_mission);
+    }
 }
 
-function mission_edit()
+function update_active_mission(new_mission)
 {
+    if(JSON.stringify(ACTIVE_MISSION) !== JSON.stringify(new_mission))
+    {
+        if(ACTIVE_MISSION != null)
+        {
+            let old_card = document.getElementById(`m-card-mission-${ACTIVE_MISSION.id}`);
+            if(old_card){old_card.style = 'none';}
+        }
 
+        ACTIVE_MISSION = new_mission;
+        load_mission_context(ACTIVE_MISSION);
+
+        if(ACTIVE_MISSION != null)
+        {
+            let card = document.getElementById(`m-card-mission-${ACTIVE_MISSION.id}`);
+            card.style = "background-color: var(--btn-kb-active); border:none";
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        else
+        {
+            console.warn("Active Mission is null");
+        }
+    }
+
+    return ACTIVE_MISSION;
 }
 
 function mission_delete()
 {
+    for(let i = 0; i < MISSION_LIST.length; i++)
+    {
+        if(ACTIVE_MISSION != null && ACTIVE_MISSION?.id === MISSION_LIST[i]?.id)
+        {
+            console.log("Removing Mission: "+ JSON.stringify(ACTIVE_MISSION));
+            MISSION_LIST.splice(i,1);
 
+            let container = document.getElementById("m-select");
+            let card = document.getElementById(`m-card-mission-${ACTIVE_MISSION.id}`);
+            if(card){container.removeChild(card);}
+
+            update_active_mission(null);
+            CHANGES_FLAG = true;
+        }
+    }
+}
+
+function refresh_mission_list()
+{
+    console.log("Refreshing Mission List");
+
+    let container = document.getElementById("m-select");
+
+    //Remove all missions from list
+    container.textContent = '';
+
+    //Add back all missions
+    load_mission_list();
+}
+
+function remove_card(id)
+{
+    let container = document.getElementById("m-select");
+    let card = document.getElementById(`m-card-mission-${id}`);
+    if(card){container.removeChild(card);}
 }
 
 //Call to add a new mission instruction to the current mission
@@ -196,8 +275,6 @@ function mission_add_instruction()
 
     let table = document.getElementById('mission-instruction-table');
     let rowCount = table.rows.length; //This'll be the ID difference for everything.
-    console.log("B:"+rowCount);
-    //TODO: Generate row element with inputs.
     let row = table.insertRow();
     row.id = `msn-c-${rowCount}`;
 
@@ -229,8 +306,6 @@ function mission_add_instruction()
     input_s.name = "Speed";
     input_s.className = "primary-input"
 
-    console.log(input_s);
-
     s_cell.appendChild(input_s);
 
     let d_cell = row.insertCell(2);     //speed_cell
@@ -242,8 +317,6 @@ function mission_add_instruction()
     input_d.value = restraint.d_default;
     input_d.name = "Duration";
     input_d.className = "primary-input"
-
-    console.log(input_d);
 
     d_cell.appendChild(input_d);
     
@@ -277,7 +350,6 @@ function mission_load_instruction(instruction)
 
     if(!mission_validate_instruction(instruction))
     {
-        console.log("valid instruction parameters for numbers are all set to 1. Please mission_load_instruction function")
         console.error("Invalid instruction data attempted to be loaded in mission builder\n");
         return NULL;
     }
@@ -397,8 +469,6 @@ function getInstructionList()
         instruct_list.push(getRowInstruction(i));
     }
 
-    console.log("Instuction List Object: " + JSON.stringify(instruct_list));
-
     return instruct_list;
 }
 
@@ -407,7 +477,6 @@ function mission_save()
     ACTIVE_MISSION.instructions = getInstructionList();
 
     let input_name = document.getElementById("mission-name");
-    console.log("SAFE"+input_name.value);
 
     ACTIVE_MISSION.name = input_name.value;
 
@@ -419,17 +488,19 @@ function mission_save()
         }
     }
 
-    MISSION_LIST = MISSION_LIST.filter(mission => mission['name'] !== "");
-    MISSION_LIST = MISSION_LIST.filter(mission => mission['instructions'] !== []);
-    //TODO: Clear grid
-    //TODO: Respawn grid
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['name'] != "");
+    MISSION_LIST = MISSION_LIST.filter(mission => mission['instructions'] != []);
 
     mission_post(MISSION_LIST);
+    CHANGES_FLAG = false;
+    refresh_mission_list();
+
 }
 
 function mission_reset()
 {
-    //TODO: Load inputs to original state. (Reload previous json file loaded, or load new table)
+    load_missions(true);    //Refetch missions from database
+    refresh_mission_list(); //Load fresh missions in place of old ones.
 }
 
 function mission_post(data)
