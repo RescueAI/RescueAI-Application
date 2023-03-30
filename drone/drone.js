@@ -451,23 +451,28 @@ async function detect(image) {
 		const headers = {
 			...formData.getHeaders()
 		}
+		const buf64 = Buffer.from(buf).toString("base64")
 
 		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
 		else {
-			console.log(buf);
-			const img = await Jimp.read(buf);
-			buf = img.bitmap;
+			// console.log(buf);
+			// const img = await Jimp.read(buf);
+			// buf = img.bitmap;
 			
 			//formData.append('image', img.bitmap);
 		}
 
-		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", );
+		fs.writeFileSync("./dronecap.png", buf);
+		
+		
+		formData.append('image', fs.createReadStream('./dronecap.png'));
+		const response = await axios.post("http://127.0.0.1:1000/get_boxes/", formData, headers );
 		boxes = response.data;
 		if (boxes?.boxes) {
 			const currentTime = moment();
-			const difference = currentTime.diff(recentEvent.localtime);
+			const difference = moment.duration(currentTime.diff(recentEvent.localtime)).asSeconds();
 			
-			if (Number(difference.seconds()) > 20) {
+			if (difference > 20) {
 				recentEvent = {
 					image: preBoxedImg,
 					detections: boxes?.boxes,
