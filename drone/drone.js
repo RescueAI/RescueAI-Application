@@ -614,7 +614,6 @@ server.listen(6969, () => {
 async function detect(image) {
 	let buf = image;
 	if (!USE_DRONE) buf = fs.readFileSync('./src/known.jpg')
-	//fs.writeFileSync('./ml-server/photoDir/photo.jpg', buf)
 
 	if(buf === undefined || isGettingBoxes) return;
 	try {
@@ -626,13 +625,6 @@ async function detect(image) {
 		const buf64 = Buffer.from(buf).toString("base64")
 
 		if (!USE_DRONE) formData.append('image', fs.createReadStream('./src/known.jpg'));
-		else {
-			// console.log(buf);
-			// const img = await Jimp.read(buf);
-			// buf = img.bitmap;
-			
-			//formData.append('image', img.bitmap);
-		}
 
 		fs.writeFileSync("./dronecap.png", buf);
 		
@@ -651,33 +643,10 @@ async function detect(image) {
 					localtime: currentTime,
 					timestamp: currentTime.diff(MISSION_START_TIME)
 				}
-			}
-			recentEvent.localtime = currentTime;
-		}
-		// const req = http.request(mlreqOptions, res => {
-		// 	res.on('data', data => {
-		// 		boxes = data;
 				
-		// 		console.log("data get");
-		// 	})
-		// 	res.on('error', err => {
-		// 		console.log("Error in req to python/ML")
-		// 	})
-		// });
-			
-
-
-		// let tfimg = tf.node.decodeJpeg(buf);
-		// tfimg = tfimg.reshape([1,640,360,3]);
-		// console.log(tfimg.shape)
-		
-		// const predictions = await model.predict(tfimg);
-		// console.log(`predictions length = ${predictions.length}`);
-		// console.log(predictions);
-		// for(let i =0; i < predictions.length; i++)
-		// {
-		// 	console.log(predictions[i].dataSync());
-		// }
+				recentEvent.localtime = currentTime;
+			}
+		}
 	} catch (e) {
 		console.log(e)
 	} finally {
@@ -697,23 +666,6 @@ const getPreBoxImage = async (image) => {
 	const dataBuffer = Buffer.from(JSON.stringify(data))
 	req.write(dataBuffer);
 	req.end();
-}
-
-const opts = {
-	width: 1280,
-  height: 720,
-  quality: 100,
-  output: "png",
-	//callbackReturn: "buffer"
-}
-const webcam = NodeWebcam.create(opts);
-
-async function webCamCapture() {
-	webcam.clear();
-	await webcam.capture("test", (err, data) => {
-		if(err) console.log(err);
-		lastPng = data;
-	});
 }
 
 //export default drone;

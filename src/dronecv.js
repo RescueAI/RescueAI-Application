@@ -40,17 +40,6 @@ async function processVideo() {
       document.getElementById("source-image").setAttribute("src", img);
       setTimeout(() => {updateStream();}, 10)
     }
-      
-      
-    
-    //updateBoxes();
-  // const context = canvas.getContext("2d");
-  // let outImg = new Image();
-  // outImg.src = img;
-  // outImg.onload = () => {
-  //   context.drawImage(outImg, 0, 0);
-  //   console.log("img drawn");
-  // };
 }
 
 const updateBoxes = async () => {
@@ -65,16 +54,14 @@ const updateBoxes = async () => {
 }
 
 const updateStream = () => {
-  console.log("updating stream")
   try {
     const sourceImage = document.getElementById("source-image");
     const outputCanvas = document.getElementById("image-output");
-    const src = cv.imread(sourceImage);
+    const src = cv.imread(sourceImage, cv.IMREAD_COLOR);
     const dst = src.clone();
-    console.log("img read")
     if (boxes) {
       console.log(boxes)
-      const color = new cv.Scalar(255, 0, 0);
+      const color = new cv.Scalar(255, 0, 0, 255);
       const thickness = 2;
       for (const box of boxes) {
         const p1 = new cv.Point(box[0], box[1]);
@@ -83,7 +70,6 @@ const updateStream = () => {
       }
     }
     cv.imshow(outputCanvas, dst);
-    console.log("img show")
     src.delete();
     dst.delete();
   } catch (e) {
@@ -91,6 +77,3 @@ const updateStream = () => {
   }
   
 }
-//setInterval(processVideo, 50);
-
-//openCvReady();
